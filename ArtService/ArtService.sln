@@ -3,9 +3,53 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A7A561F4-3454-4C1D-A766-19E4F1500D64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A5243A4D-065E-4A4E-B5EC-EE714B890E8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8D5B1AF3-FE56-4815-A0BE-DC6079B2DCF0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D6D86612-5E4C-4648-A72A-284778E4C752}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtService.Domain", "ArtService.Domain\ArtService.Domain.csproj", "{2DD749AC-0415-4060-96D8-E1297D2A8545}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtService.Application", "ArtService.Application\ArtService.Application.csproj", "{77B142EA-E87F-43F5-88BE-8B0A7DAAD5C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtService.Persistence", "ArtService.Persistence\ArtService.Persistence.csproj", "{54F013B0-9A8D-49F0-9856-B25D6AC1A844}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtService.WebApi", "ArtService.WebApi\ArtService.WebApi.csproj", "{C01E0003-F67E-48FC-AFA6-904B54C63FDD}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DD749AC-0415-4060-96D8-E1297D2A8545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD749AC-0415-4060-96D8-E1297D2A8545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD749AC-0415-4060-96D8-E1297D2A8545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD749AC-0415-4060-96D8-E1297D2A8545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B142EA-E87F-43F5-88BE-8B0A7DAAD5C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B142EA-E87F-43F5-88BE-8B0A7DAAD5C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B142EA-E87F-43F5-88BE-8B0A7DAAD5C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B142EA-E87F-43F5-88BE-8B0A7DAAD5C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F013B0-9A8D-49F0-9856-B25D6AC1A844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F013B0-9A8D-49F0-9856-B25D6AC1A844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F013B0-9A8D-49F0-9856-B25D6AC1A844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F013B0-9A8D-49F0-9856-B25D6AC1A844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C01E0003-F67E-48FC-AFA6-904B54C63FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C01E0003-F67E-48FC-AFA6-904B54C63FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C01E0003-F67E-48FC-AFA6-904B54C63FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C01E0003-F67E-48FC-AFA6-904B54C63FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DD749AC-0415-4060-96D8-E1297D2A8545} = {A7A561F4-3454-4C1D-A766-19E4F1500D64}
+		{77B142EA-E87F-43F5-88BE-8B0A7DAAD5C7} = {A7A561F4-3454-4C1D-A766-19E4F1500D64}
+		{54F013B0-9A8D-49F0-9856-B25D6AC1A844} = {A5243A4D-065E-4A4E-B5EC-EE714B890E8B}
+		{C01E0003-F67E-48FC-AFA6-904B54C63FDD} = {D6D86612-5E4C-4648-A72A-284778E4C752}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D01D8ADB-888C-4426-8B98-910E6B9D3223}
