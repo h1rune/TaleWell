@@ -13,7 +13,7 @@ namespace ArtService.Application.Comments.Commands.CreateComment
         {
             var comment = new Comment
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 UserId = request.UserId,
                 ParagraphId = request.ParagraphId,
                 Text = request.Text,
