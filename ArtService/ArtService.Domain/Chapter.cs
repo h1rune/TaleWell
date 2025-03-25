@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public Guid WorkId { get; set; }
-        public required Work RelatedWork { get; set; }
+        public Work RelatedWork { get; set; } = null!;
 
         public uint Order { get; set; }
         public string? Title { get; set; }

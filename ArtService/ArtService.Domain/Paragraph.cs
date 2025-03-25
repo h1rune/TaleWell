@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public Guid ChapterId { get; set; }
-        public required Chapter RelatedChapter { get; set; }
+        public Chapter RelatedChapter { get; set; } = null!;
 
         public uint Order { get; set; }
         public required string S3Url { get; set; }
