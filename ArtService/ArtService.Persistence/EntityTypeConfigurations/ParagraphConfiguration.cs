@@ -9,7 +9,7 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Paragraph> builder)
         {
             builder.HasKey(paragraph => paragraph.Id);
-            builder.HasIndex(paragraph => paragraph.Id);
+            builder.HasIndex(paragraph => new {paragraph.ChapterId, paragraph.Order});
 
             builder.HasOne(paragraph => paragraph.RelatedChapter)
                 .WithMany(chapter => chapter.Paragraphs)

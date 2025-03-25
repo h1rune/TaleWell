@@ -9,7 +9,8 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Work> builder)
         {
             builder.HasKey(work => work.Id);
-            builder.HasIndex(work => work.Id);
+            builder.HasIndex(work => work.AuthorId);
+
             builder.Property(work => work.Description).HasMaxLength(1000);
             builder.Property(work => work.CreatedAt).HasDefaultValue(DateTime.UtcNow);
 

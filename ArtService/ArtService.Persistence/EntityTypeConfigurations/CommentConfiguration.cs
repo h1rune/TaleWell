@@ -9,7 +9,7 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.HasKey(comment => comment.Id);
-            builder.HasIndex(comment => comment.Id);
+            builder.HasIndex(comment => comment.ParagraphId);
 
             builder.Property(comment => comment.Text).HasMaxLength(300);
             builder.Property(comment => comment.CreatedAt).HasDefaultValue(DateTime.UtcNow);

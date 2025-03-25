@@ -9,7 +9,7 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Review> builder)
         {
             builder.HasKey(review => review.Id);
-            builder.HasIndex(review => review.Id);
+            builder.HasIndex(review => review.WorkId);
 
             builder.Property(review => review.Text).HasMaxLength(2000);
             builder.Property(review => review.CreatedAt).HasDefaultValue(DateTime.UtcNow);

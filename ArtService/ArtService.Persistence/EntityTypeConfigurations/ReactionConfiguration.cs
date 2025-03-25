@@ -9,7 +9,7 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Reaction> builder)
         {
             builder.HasKey(reaction => reaction.Id);
-            builder.HasIndex(reaction => reaction.Id);
+            builder.HasIndex(reaction => reaction.ParagraphId);
 
             builder.Property(reaction => reaction.PutAt).HasDefaultValue(DateTime.UtcNow);
 
