@@ -8,6 +8,7 @@
         public Guid WorkId { get; set; }
         public Work ReviewedWork { get; set; } = null!;
 
+        public ReactionType Mark { get; set; }
         public required string Text { get; set; }
         public DateTime CreatedAt { get; set; }
     }
