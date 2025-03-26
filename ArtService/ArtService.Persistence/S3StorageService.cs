@@ -48,6 +48,17 @@ namespace ArtService.Persistence
 
             return _s3Client.GetPreSignedURL(request);
         }
+
+        public async Task DeleteFileAsync(string key)
+        {
+            var deleteRequest = new DeleteObjectRequest
+            {
+                BucketName = _bucketName,
+                Key = key
+            };
+
+            await _s3Client.DeleteObjectAsync(deleteRequest);
+        }
     }
 
 }
