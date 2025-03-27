@@ -22,6 +22,8 @@ namespace ArtService.Application.Comments.Commands.UpdateComment
             } 
 
             entity.Text = request.Text;
+            entity.IsSpoiler = request.IsSpoiler;
+            entity.SpoilerChapterNumber = request.SpoilerChapterNumber;
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }

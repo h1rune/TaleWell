@@ -8,6 +8,8 @@
         public Paragraph RelatedParagraph { get; set; } = null!;
 
         public required string Text { get; set; }
+        public bool IsSpoiler { get; set; }
+        public int? SpoilerChapterNumber { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

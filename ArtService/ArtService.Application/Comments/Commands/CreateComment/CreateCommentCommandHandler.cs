@@ -17,6 +17,8 @@ namespace ArtService.Application.Comments.Commands.CreateComment
                 UserId = request.UserId,
                 ParagraphId = request.ParagraphId,
                 Text = request.Text,
+                IsSpoiler = request.IsSpoiler,
+                SpoilerChapterNumber = request.SpoilerChapterNumber,
                 CreatedAt = DateTime.UtcNow
             };
 
