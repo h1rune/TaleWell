@@ -25,16 +25,17 @@ namespace ArtService.Application.Paragraphs.Commands.CreateParagraph
                 throw new NotFoundException(nameof(Work), work.Id);
             }
 
-            
+
+            var paragraphId = Guid.NewGuid();
+            var path = $"works/{work.Id}/volumes/{chapter.RelatedVolume.Id}/chapters/{chapter.Id}/paragraphs/{paragraphId}.txt";
             var paragraph = new Paragraph
             {
-                Id = Guid.NewGuid(),
+                Id = paragraphId,
                 ChapterId = chapter.Id,
-                Order = request.Order
+                Order = request.Order,
+                S3Key = await _storageService.UploadFileAsync(request.Text, path, cancellationToken)
             };
 
-            var path = $"works/{work.Id}/volumes/{chapter.RelatedVolume.Id}/chapters/{chapter.Id}/paragraphs/{paragraph.Id}.txt";
-            paragraph.S3Key = await _storageService.UploadFileAsync(request.Text, path, cancellationToken);
             await _dbContext.Paragraphs.AddAsync(paragraph, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return paragraph.Id;
