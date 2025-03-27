@@ -25,7 +25,6 @@ namespace ArtService.Application.Paragraphs.Commands.CreateParagraph
                 throw new NotFoundException(nameof(Work), work.Id);
             }
 
-
             var paragraphId = Guid.NewGuid();
             var path = $"works/{work.Id}/volumes/{chapter.RelatedVolume.Id}/chapters/{chapter.Id}/paragraphs/{paragraphId}.txt";
             var paragraph = new Paragraph
