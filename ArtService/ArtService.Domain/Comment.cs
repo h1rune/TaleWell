@@ -7,7 +7,7 @@
         public Guid ParagraphId { get; set; }
         public Paragraph RelatedParagraph { get; set; } = null!;
 
-        public required string Text { get; set; }
+        public string Text { get; set; } = null!;
         public bool IsSpoiler { get; set; }
         public int? SpoilerChapterNumber { get; set; }
         public DateTime CreatedAt { get; set; }
