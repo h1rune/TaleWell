@@ -9,6 +9,7 @@ namespace ArtService.Persistence
     {
         public DbSet<Work> Works { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Volume> Volumes { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
         public DbSet<Paragraph> Paragraphs { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -18,6 +19,7 @@ namespace ArtService.Persistence
         {
             modelBuilder.ApplyConfiguration(new WorkConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+            modelBuilder.ApplyConfiguration(new VolumeConfiguration());
             modelBuilder.ApplyConfiguration(new ChapterConfiguration());
             modelBuilder.ApplyConfiguration(new ParagraphConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
