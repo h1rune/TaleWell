@@ -9,6 +9,6 @@ namespace ArtService.Application.Reviews.Commands.UpdateReview
         public Guid UserId { get; set; }
 
         public ReactionType Mark { get; set; }
-        public required string Text { get; set; }
+        public string Text { get; set; } = null!;
     }
 }
