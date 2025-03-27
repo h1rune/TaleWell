@@ -4,10 +4,10 @@ namespace ArtService.Application.Interfaces
 {
     public interface IStorageService
     {
-        Task<string> UploadFileAsync(IFormFile file, string path);
+        Task<string> UploadFileAsync(IFormFile file, string path, CancellationToken cancellationToken);
 
         string GeneratePreSignedUrl(string key, TimeSpan expiration);
 
-        Task DeleteFileAsync(string key);
+        Task DeleteFileAsync(string key, CancellationToken cancellationToken);
     }
 }

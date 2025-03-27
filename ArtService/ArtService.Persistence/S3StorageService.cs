@@ -22,7 +22,7 @@ namespace ArtService.Persistence
             _s3Client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.GetBySystemName(region));
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file, string path)
+        public async Task<string> UploadFileAsync(IFormFile file, string path, CancellationToken cancellationToken)
         {
             using var stream = file.OpenReadStream();
             var request = new PutObjectRequest
@@ -33,7 +33,7 @@ namespace ArtService.Persistence
                 ContentType = file.ContentType
             };
 
-            await _s3Client.PutObjectAsync(request);
+            await _s3Client.PutObjectAsync(request, cancellationToken);
             return path;
         }
 
@@ -49,7 +49,7 @@ namespace ArtService.Persistence
             return _s3Client.GetPreSignedURL(request);
         }
 
-        public async Task DeleteFileAsync(string key)
+        public async Task DeleteFileAsync(string key, CancellationToken cancellationToken)
         {
             var deleteRequest = new DeleteObjectRequest
             {
@@ -57,7 +57,7 @@ namespace ArtService.Persistence
                 Key = key
             };
 
-            await _s3Client.DeleteObjectAsync(deleteRequest);
+            await _s3Client.DeleteObjectAsync(deleteRequest, cancellationToken);
         }
     }
 
