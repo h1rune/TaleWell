@@ -6,8 +6,8 @@
         public Guid ChapterId { get; set; }
         public Chapter RelatedChapter { get; set; } = null!;
 
-        public uint Order { get; set; }
-        public required string S3Url { get; set; }
+        public int Order { get; set; }
+        public string S3Key { get; set; } = null!;
 
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<Reaction>? Reactions { get; set; }

@@ -11,8 +11,6 @@ namespace ArtService.Persistence.EntityTypeConfigurations
             builder.HasKey(reaction => reaction.Id);
             builder.HasIndex(reaction => reaction.ParagraphId);
 
-            builder.Property(reaction => reaction.PutAt).HasDefaultValue(DateTime.UtcNow);
-
             builder.HasOne(reaction => reaction.RelatedParagraph)
                 .WithMany(paragraph => paragraph.Reactions)
                 .HasForeignKey(reaction => reaction.ParagraphId)

@@ -12,7 +12,6 @@ namespace ArtService.Persistence.EntityTypeConfigurations
             builder.HasIndex(work => work.AuthorId);
 
             builder.Property(work => work.Description).HasMaxLength(1000);
-            builder.Property(work => work.CreatedAt).HasDefaultValue(DateTime.UtcNow);
 
             builder.HasOne(work => work.OriginalWork)
                 .WithMany(original => original.Fanfics)

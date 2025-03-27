@@ -7,7 +7,7 @@
         public Guid ParagraphId { get; set; }
         public Paragraph RelatedParagraph { get; set; } = null!;
 
-        public required string Text { get; set; }
+        public string Text { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
     }
 }

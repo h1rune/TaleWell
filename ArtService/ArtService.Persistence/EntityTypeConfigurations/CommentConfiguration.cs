@@ -12,7 +12,6 @@ namespace ArtService.Persistence.EntityTypeConfigurations
             builder.HasIndex(comment => comment.ParagraphId);
 
             builder.Property(comment => comment.Text).HasMaxLength(300);
-            builder.Property(comment => comment.CreatedAt).HasDefaultValue(DateTime.UtcNow);
 
             builder.HasOne(comment => comment.RelatedParagraph)
                 .WithMany(paragraph => paragraph.Comments)

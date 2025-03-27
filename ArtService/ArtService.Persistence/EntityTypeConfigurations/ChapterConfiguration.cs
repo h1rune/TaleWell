@@ -9,11 +9,11 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Chapter> builder)
         {
             builder.HasKey(chapter => chapter.Id);
-            builder.HasIndex(chapter => new {chapter.WorkId, chapter.Order});
+            builder.HasIndex(chapter => new {chapter.VolumeId, chapter.Order});
 
-            builder.HasOne(chapter => chapter.RelatedWork)
-                .WithMany(work => work.Chapters)
-                .HasForeignKey(chapter => chapter.Id)
+            builder.HasOne(chapter => chapter.RelatedVolume)
+                .WithMany(volume => volume.Chapters)
+                .HasForeignKey(chapter => chapter.VolumeId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
