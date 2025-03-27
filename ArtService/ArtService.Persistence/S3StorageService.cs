@@ -3,7 +3,9 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using ArtService.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace ArtService.Persistence
 {
@@ -35,6 +37,24 @@ namespace ArtService.Persistence
 
             await _s3Client.PutObjectAsync(request, cancellationToken);
             return path;
+        }
+
+        public async Task<string> UploadFileAsync(string text, string path, CancellationToken cancellationToken)
+        {
+            var file = CreateFormFileFromText(text, path);
+            return await UploadFileAsync(file, path, cancellationToken);
+        }
+
+        public IFormFile CreateFormFileFromText(string text, string fileName)
+        {
+            byte[] byteArray = Encoding.UTF8.GetBytes(text);
+            var stream = new MemoryStream(byteArray);
+            IFormFile formFile = new FormFile(stream, 0, stream.Length, "file", fileName)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = "text/plain"
+            };
+            return formFile;
         }
 
         public string GeneratePreSignedUrl(string key, TimeSpan expiration)
