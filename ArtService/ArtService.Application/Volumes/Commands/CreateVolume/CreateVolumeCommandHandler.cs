@@ -1,6 +1,8 @@
-﻿using ArtService.Application.Interfaces;
+﻿using ArtService.Application.Common.Exceptions;
+using ArtService.Application.Interfaces;
 using ArtService.Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArtService.Application.Volumes.Commands.CreateVolume
 {
@@ -12,12 +14,17 @@ namespace ArtService.Application.Volumes.Commands.CreateVolume
 
         public async Task<Guid> Handle(CreateVolumeCommand request, CancellationToken cancellationToken)
         {
+            var workEntity = await _dbContext.Works
+                .FirstOrDefaultAsync(work => work.Id == request.WorkId
+                    && work.AuthorId == request.UserId, cancellationToken)
+                ?? throw new NotFoundException(nameof(Work), request.WorkId);
+
             var volume = new Volume
             {
                 Id = Guid.NewGuid(),
                 Order = request.Order,
                 Title = request.Title,
-                WorkId = request.WorkId
+                WorkId = workEntity.Id
             };
 
             if (request.CoverFile != null)
