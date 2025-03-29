@@ -14,11 +14,11 @@ namespace ArtService.Application.Reviews.Commands.DeleteReview
         public async Task Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Reviews
-                .FirstOrDefaultAsync(review => review.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(review => review.Id == request.ReviewId, cancellationToken);
 
             if (entity == null || entity.UserId != request.UserId)
             {
-                throw new NotFoundException(nameof(Review), request.Id);
+                throw new NotFoundException(nameof(Review), request.ReviewId);
             }
 
             _dbContext.Reviews.Remove(entity);
