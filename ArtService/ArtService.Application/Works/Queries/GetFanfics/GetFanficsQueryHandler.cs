@@ -17,6 +17,9 @@ namespace ArtService.Application.Works.Queries.GetFanfics
             var fanficsQuery = await _dbContext.Works
                 .Include(work => work.Fanfics)
                 .Where(work => work.Id == request.OriginalId)
+                .OrderBy(work => work.CreatedAt)
+                .Skip(request.Offset)
+                .Take(request.Limit)
                 .ProjectTo<FanficLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
