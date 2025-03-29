@@ -16,8 +16,8 @@ namespace ArtService.Application.Volumes.Commands.UpdateVolume
         {
             var volume = await _dbContext.Volumes
                 .Include(volume => volume.RelatedWork)
-                .FirstOrDefaultAsync(volume => volume.Id == request.Id, cancellationToken)
-                ?? throw new NotFoundException(nameof(Volume), request.Id);
+                .FirstOrDefaultAsync(volume => volume.Id == request.VolumeId, cancellationToken)
+                ?? throw new NotFoundException(nameof(Volume), request.VolumeId);
 
             if (volume.RelatedWork.AuthorId != request.UserId)
             {
