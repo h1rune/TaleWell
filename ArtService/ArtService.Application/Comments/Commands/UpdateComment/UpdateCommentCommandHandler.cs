@@ -13,12 +13,12 @@ namespace ArtService.Application.Comments.Commands.UpdateComment
         public async Task Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Comments
-                .FirstOrDefaultAsync(comment => comment.Id == request.Id, 
+                .FirstOrDefaultAsync(comment => comment.Id == request.CommentId, 
                 cancellationToken);
 
             if (entity == null || entity.UserId != request.UserId)
             {
-                throw new NotFoundException(nameof(Comment), request.Id);
+                throw new NotFoundException(nameof(Comment), request.CommentId);
             } 
 
             entity.Text = request.Text;
