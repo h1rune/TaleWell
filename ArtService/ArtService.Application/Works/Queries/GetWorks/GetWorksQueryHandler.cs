@@ -15,6 +15,7 @@ namespace ArtService.Application.Works.Queries.GetWorks
         public async Task<WorksVm> Handle(GetWorksQuery request, CancellationToken cancellationToken)
         {
             var worksQuery = await _dbContext.Works
+                .OrderBy(work => work.CreatedAt)
                 .Skip(request.Offset)
                 .Take(request.Limit)
                 .ProjectTo<WorkLookupDto>(_mapper.ConfigurationProvider)
