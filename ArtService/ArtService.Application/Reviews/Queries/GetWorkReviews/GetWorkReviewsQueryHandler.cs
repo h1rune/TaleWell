@@ -16,6 +16,9 @@ namespace ArtService.Application.Reviews.Queries.GetWorkReviews
         {
             var reviewsQuery = await _dbContext.Reviews
                 .Where(review => review.WorkId == request.WorkId)
+                .OrderBy(review => review.CreatedAt)
+                .Skip(request.Offset)
+                .Take(request.Limit)
                 .ProjectTo<ReviewLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
