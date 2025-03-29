@@ -14,8 +14,8 @@ namespace ArtService.Application.Chapters.Commands.UpdateChapter
         public async Task Handle(UpdateChapterCommand request, CancellationToken cancellationToken)
         {
             var chapter = await _dbContext.Chapters
-                .FirstOrDefaultAsync(chapter => chapter.Id == request.Id, cancellationToken)
-                ?? throw new NotFoundException(nameof(Chapter), request.Id);
+                .FirstOrDefaultAsync(chapter => chapter.Id == request.ChapterId, cancellationToken)
+                ?? throw new NotFoundException(nameof(Chapter), request.ChapterId);
 
             var volume = await _dbContext.Volumes
                 .Include(volume => volume.RelatedWork)
