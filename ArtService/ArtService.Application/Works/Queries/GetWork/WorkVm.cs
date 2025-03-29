@@ -16,12 +16,12 @@ namespace ArtService.Application.Works.Queries.GetWork
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Work, WorkVm>()
-                .ForMember(fanficDto => fanficDto.AuthorId, options => options.MapFrom(work => work.AuthorId))
-                .ForMember(fanficDto => fanficDto.Title, options => options.MapFrom(work => work.Title))
-                .ForMember(fanficDto => fanficDto.Description, options => options.MapFrom(work => work.Description))
-                .ForMember(fanficDto => fanficDto.IsFanfic, options => options.MapFrom(work => work.IsFanfic))
-                .ForMember(fanficDto => fanficDto.OriginalWorkId, options => options.MapFrom(work => work.OriginalWorkId))
-                .ForMember(fanficDto => fanficDto.CreatedAt, options => options.MapFrom(work => work.CreatedAt));
+                .ForMember(workDto => workDto.AuthorId, options => options.MapFrom(work => work.AuthorId))
+                .ForMember(workDto => workDto.Title, options => options.MapFrom(work => work.Title))
+                .ForMember(workDto => workDto.Description, options => options.MapFrom(work => work.Description))
+                .ForMember(workDto => workDto.IsFanfic, options => options.MapFrom(work => work.IsFanfic))
+                .ForMember(workDto => workDto.OriginalWorkId, options => options.MapFrom(work => work.OriginalWorkId))
+                .ForMember(workDto => workDto.CreatedAt, options => options.MapFrom(work => work.CreatedAt));
         }
     }
 }
