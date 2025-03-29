@@ -2,6 +2,6 @@
 {
     public class ParagraphCommentsVm
     {
-        public IList<CommentDto> Comments { get; set; } = null!;
+        public IList<CommentLookupDto> Comments { get; set; } = null!;
     }
 }

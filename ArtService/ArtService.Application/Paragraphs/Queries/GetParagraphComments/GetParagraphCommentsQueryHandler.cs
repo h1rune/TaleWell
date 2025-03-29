@@ -21,7 +21,7 @@ namespace ArtService.Application.Paragraphs.Queries.GetParagraphComments
                 .OrderBy(comment => comment.CreatedAt)
                 .Skip(request.Offset)
                 .Take(request.Limit)
-                .ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<CommentLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
                 ?? throw new NotFoundException(nameof(Paragraph), request.ParagraphId);
 

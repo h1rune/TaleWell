@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace ArtService.Application.Paragraphs.Queries.GetParagraphComments
 {
-    public class CommentDto : IMapWith<Comment>
+    public class CommentLookupDto : IMapWith<Comment>
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
@@ -13,7 +13,7 @@ namespace ArtService.Application.Paragraphs.Queries.GetParagraphComments
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Comment, CommentDto>()
+            profile.CreateMap<Comment, CommentLookupDto>()
                 .ForMember(commentDto => commentDto.Id, options => options.MapFrom(comment => comment.Id))
                 .ForMember(commentDto => commentDto.UserId, options => options.MapFrom(comment => comment.UserId))
                 .ForMember(commentDto => commentDto.Text, options => options.MapFrom(comment => comment.Text))
