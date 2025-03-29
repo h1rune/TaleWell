@@ -5,5 +5,7 @@ namespace ArtService.Application.Paragraphs.Queries.GetParagraphComments
     public class GetParagraphCommentsQuery : IRequest<ParagraphCommentsVm>
     {
         public Guid ParagraphId { get; set; }
+        public int Offset { get; set; } = 0;
+        public int Limit { get; set; } = 10;
     }
 }

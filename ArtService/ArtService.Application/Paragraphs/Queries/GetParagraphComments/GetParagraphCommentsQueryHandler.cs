@@ -18,6 +18,9 @@ namespace ArtService.Application.Paragraphs.Queries.GetParagraphComments
         {
             var commentsQuery = await _dbContext.Comments
                 .Where(comment => comment.ParagraphId == request.ParagraphId)
+                .OrderBy(comment => comment.CreatedAt)
+                .Skip(request.Offset)
+                .Take(request.Limit)
                 .ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
                 ?? throw new NotFoundException(nameof(Paragraph), request.ParagraphId);
