@@ -14,9 +14,9 @@ namespace ArtService.Application.Works.Commands.DeleteWork
         public async Task Handle(DeleteWorkCommand request, CancellationToken cancellationToken)
         {
             var work = await _dbContext.Works
-                .FirstOrDefaultAsync(work => work.Id == request.Id
+                .FirstOrDefaultAsync(work => work.Id == request.WorkId
                     && work.AuthorId != request.UserId, cancellationToken)
-                ?? throw new NotFoundException(nameof(Work), request.Id);
+                ?? throw new NotFoundException(nameof(Work), request.WorkId);
 
             _dbContext.Works.Remove(work);
             await _dbContext.SaveChangesAsync(cancellationToken);
