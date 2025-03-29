@@ -16,6 +16,9 @@ namespace ArtService.Application.Comments.Queries.GetParagraphComments
         {
             var commentsQuery = await _dbContext.Comments
                 .Where(comment => comment.ParagraphId == request.ParagraphId)
+                .OrderBy(comment => comment.CreatedAt)
+                .Skip(request.Offset)
+                .Take(request.Limit)
                 .ProjectTo<CommentLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
