@@ -14,12 +14,12 @@ namespace ArtService.Application.Comments.Commands.DeleteComment
         public async Task Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Comments
-                .FirstOrDefaultAsync(comment => comment.Id == request.Id,
+                .FirstOrDefaultAsync(comment => comment.Id == request.CommentId,
                 cancellationToken);
 
             if (entity == null || entity.UserId != request.UserId)
             {
-                throw new NotFoundException(nameof(Comment), request.Id);
+                throw new NotFoundException(nameof(Comment), request.CommentId);
             }
 
             _dbContext.Comments.Remove(entity);
