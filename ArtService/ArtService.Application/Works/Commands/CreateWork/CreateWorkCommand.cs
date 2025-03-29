@@ -1,5 +1,4 @@
-﻿using ArtService.Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace ArtService.Application.Works.Commands.CreateWork
 {
