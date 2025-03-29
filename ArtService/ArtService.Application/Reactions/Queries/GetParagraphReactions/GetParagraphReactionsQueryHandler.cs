@@ -17,14 +17,12 @@ namespace ArtService.Application.Reactions.Queries.GetParagraphReactions
                 .Select(group => new ReactionCountDto
                 {
                     Type = group.Key,
-                    Count = group.Count()
+                    Count = group.Count(),
+                    IsUserPut = group.Any(reaction => reaction.UserId == request.UserId)
                 })
                 .ToListAsync(cancellationToken);
 
-            return new ParagraphReactionsVm 
-            { 
-                Reactions = reactionCounts.ToDictionary(dto => dto.Type, dto => dto.Count) 
-            };
+            return new ParagraphReactionsVm { Reactions = reactionCounts };
         }
     }
 }
