@@ -2,6 +2,6 @@
 {
     public class WorkReviewsVm
     {
-        public required IList<ReviewLookupDto> Reviews { get; set; }
+        public required IList<WorkReviewLookupDto> Reviews { get; set; }
     }
 }

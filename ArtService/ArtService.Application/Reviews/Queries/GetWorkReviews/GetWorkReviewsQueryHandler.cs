@@ -19,7 +19,7 @@ namespace ArtService.Application.Reviews.Queries.GetWorkReviews
                 .OrderBy(review => review.CreatedAt)
                 .Skip(request.Offset)
                 .Take(request.Limit)
-                .ProjectTo<ReviewLookupDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<WorkReviewLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
             return new WorkReviewsVm { Reviews = reviewsQuery };
