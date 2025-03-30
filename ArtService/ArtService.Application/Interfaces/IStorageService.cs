@@ -8,6 +8,7 @@ namespace ArtService.Application.Interfaces
         Task<string> UploadFileAsync(string text, string path, CancellationToken cancellationToken);
 
         string GeneratePreSignedUrl(string key, TimeSpan expiration);
+        Task<string> ReadFileByKeyAsync(string key, CancellationToken cancellationToken);
 
         Task DeleteFileAsync(string key, CancellationToken cancellationToken);
     }

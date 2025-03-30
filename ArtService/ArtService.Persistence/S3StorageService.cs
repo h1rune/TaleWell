@@ -69,6 +69,19 @@ namespace ArtService.Persistence
             return _s3Client.GetPreSignedURL(request);
         }
 
+        public async Task<string> ReadFileByKeyAsync(string key, CancellationToken cancellationToken)
+        {
+            var request = new GetObjectRequest
+            {
+                BucketName = _bucketName,
+                Key = key
+            };
+
+            using var response = await _s3Client.GetObjectAsync(request, cancellationToken);
+            using var reader = new StreamReader(response.ResponseStream);
+            return await reader.ReadToEndAsync();
+        }
+
         public async Task DeleteFileAsync(string key, CancellationToken cancellationToken)
         {
             var deleteRequest = new DeleteObjectRequest
