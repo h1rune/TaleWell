@@ -16,12 +16,8 @@ namespace ArtService.Persistence
 
         public S3StorageService(IAmazonS3 s3Client, IConfiguration configuration)
         {
-            var accessKey = configuration["S3:AccessKey"];
-            var secretKey = configuration["S3:SecretKey"];
-            var region = configuration["S3:Region"];
             _bucketName = configuration["S3:BucketName"]!;
-
-            _s3Client = new AmazonS3Client(accessKey, secretKey, RegionEndpoint.GetBySystemName(region));
+            _s3Client = s3Client;
         }
 
         public async Task<string> UploadFileAsync(IFormFile file, string path, CancellationToken cancellationToken)
