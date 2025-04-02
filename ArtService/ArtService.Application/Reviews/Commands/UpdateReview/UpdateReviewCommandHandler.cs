@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Reviews.Commands.UpdateReview
 {
     public class UpdateReviewCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<UpdateReviewCommand>
+        : IRequestHandler<UpdateReviewCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Reviews
                 .FirstOrDefaultAsync(review => review.Id == request.ReviewId, cancellationToken);
@@ -24,6 +24,7 @@ namespace ArtService.Application.Reviews.Commands.UpdateReview
             entity.Mark = request.Mark;
             entity.Text = request.Text;
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

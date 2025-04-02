@@ -3,6 +3,7 @@ using ArtService.Application.Common.Mappings;
 using ArtService.Application.Interfaces;
 using ArtService.Persistence;
 using ArtService.WebApi;
+using ArtService.WebApi.Middleware;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +50,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.UseCustomExceptionHandler();
 app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");

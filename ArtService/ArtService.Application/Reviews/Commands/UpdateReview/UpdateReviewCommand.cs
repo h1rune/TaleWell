@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ArtService.Application.Reviews.Commands.UpdateReview
 {
-    public class UpdateReviewCommand : IRequest
+    public class UpdateReviewCommand : IRequest<Unit>
     {
         public Guid ReviewId { get; set; }
         public Guid UserId { get; set; }
