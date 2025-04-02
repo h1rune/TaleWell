@@ -2,15 +2,16 @@ using ArtService.Application;
 using ArtService.Application.Common.Mappings;
 using ArtService.Application.Interfaces;
 using ArtService.Persistence;
+using ArtService.WebApi;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-.AddEnvironmentVariables();
+var root = Directory.GetCurrentDirectory();
+var dotenv = Path.Combine(root, ".env");
+DotEnv.Load(dotenv);
+
+builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddAutoMapper(config =>
 {

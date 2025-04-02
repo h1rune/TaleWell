@@ -15,8 +15,7 @@ namespace ArtService.Application.Works.Queries.GetFanfics
         public async Task<FanficsVm> Handle(GetFanficsQuery request, CancellationToken cancellationToken)
         {
             var fanficsQuery = await _dbContext.Works
-                .Include(work => work.Fanfics)
-                .Where(work => work.Id == request.OriginalId)
+                .Where(work => work.OriginalWorkId == request.OriginalId)
                 .OrderBy(work => work.CreatedAt)
                 .Skip(request.Offset)
                 .Take(request.Limit)

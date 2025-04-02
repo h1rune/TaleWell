@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using ArtService.Application.Interfaces;
+using MediatR;
 
 namespace ArtService.Application.Works.Commands.CreateWork
 {
-    public class CreateWorkCommand : IRequest<Guid>
+    public class CreateWorkCommand : IRequest<Guid>, IHasOriginalWorkId
     {
         public Guid UserId { get; set; }
         public string Title { get; set; } = null!;
