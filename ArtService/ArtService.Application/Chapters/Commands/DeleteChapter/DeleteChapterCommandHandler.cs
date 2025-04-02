@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Chapters.Commands.DeleteChapter
 {
     public class DeleteChapterCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<DeleteChapterCommand>
+        : IRequestHandler<DeleteChapterCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(DeleteChapterCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteChapterCommand request, CancellationToken cancellationToken)
         {
             var chapter = await _dbContext.Chapters
                 .FirstOrDefaultAsync(chapter => chapter.Id == request.ChapterId, cancellationToken)
@@ -29,6 +29,7 @@ namespace ArtService.Application.Chapters.Commands.DeleteChapter
 
             _dbContext.Chapters.Remove(chapter);    
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

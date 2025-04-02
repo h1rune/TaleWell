@@ -2,7 +2,7 @@
 
 namespace ArtService.Application.Paragraphs.Commands.UpdateParagraph
 {
-    public class UpdateParagraphCommand : IRequest
+    public class UpdateParagraphCommand : IRequest<Unit>
     {
         public Guid UserId { get; set; }
         public Guid Id { get; set; }

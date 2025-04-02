@@ -2,7 +2,7 @@
 
 namespace ArtService.Application.Chapters.Commands.UpdateChapter
 {
-    public class UpdateChapterCommand : IRequest
+    public class UpdateChapterCommand : IRequest<Unit>
     {
         public Guid UserId { get; set; }
         public Guid ChapterId { get; set; }

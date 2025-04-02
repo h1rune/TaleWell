@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Volumes.Commands.DeleteVolume
 {
     public class DeleteVolumeCommandHandler(IArtServiceDbContext dbContext, IStorageService storageService)
-        : IRequestHandler<DeleteVolumeCommand>
+        : IRequestHandler<DeleteVolumeCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
         private readonly IStorageService _storageService = storageService;
 
-        public async Task Handle(DeleteVolumeCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteVolumeCommand request, CancellationToken cancellationToken)
         {
             var volume = await _dbContext.Volumes
                 .Include(volume => volume.RelatedWork)
@@ -31,6 +31,7 @@ namespace ArtService.Application.Volumes.Commands.DeleteVolume
       
             _dbContext.Volumes.Remove(volume);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

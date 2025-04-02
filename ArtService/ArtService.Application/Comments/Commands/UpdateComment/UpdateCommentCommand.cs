@@ -2,7 +2,7 @@
 
 namespace ArtService.Application.Comments.Commands.UpdateComment
 {
-    public class UpdateCommentCommand : IRequest
+    public class UpdateCommentCommand : IRequest<Unit>
     {
         public Guid CommentId { get; set; }
         public Guid UserId { get; set; }

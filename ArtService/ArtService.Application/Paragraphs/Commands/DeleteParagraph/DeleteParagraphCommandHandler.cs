@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Paragraphs.Commands.DeleteParagraph
 {
     public class DeleteParagraphCommandHandler(IArtServiceDbContext dbContext, IStorageService storageService)
-        : IRequestHandler<DeleteParagraphCommand>
+        : IRequestHandler<DeleteParagraphCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
         private readonly IStorageService _storageService = storageService;
 
-        public async Task Handle(DeleteParagraphCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteParagraphCommand request, CancellationToken cancellationToken)
         {
             var paragraph = await _dbContext.Paragraphs
                 .Include(paragraph => paragraph.RelatedChapter.RelatedVolume.RelatedWork)
@@ -28,6 +28,7 @@ namespace ArtService.Application.Paragraphs.Commands.DeleteParagraph
             await _storageService.DeleteFileAsync(paragraph.S3Key, cancellationToken);
             _dbContext.Paragraphs.Remove(paragraph);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

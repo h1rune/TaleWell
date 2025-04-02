@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ArtService.Application.Comments.Commands.UpdateComment
 {
-    public class UpdateCommentCommandHandler(IArtServiceDbContext dbContext) : IRequestHandler<UpdateCommentCommand>
+    public class UpdateCommentCommandHandler(IArtServiceDbContext dbContext) 
+        : IRequestHandler<UpdateCommentCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Comments
                 .FirstOrDefaultAsync(comment => comment.Id == request.CommentId, 
@@ -25,6 +26,7 @@ namespace ArtService.Application.Comments.Commands.UpdateComment
             entity.IsSpoiler = request.IsSpoiler;
             entity.SpoilerChapterNumber = request.SpoilerChapterNumber;
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ArtService.Application.Volumes.Commands.UpdateVolume
 {
-    public class UpdateVolumeCommand : IRequest
+    public class UpdateVolumeCommand : IRequest<Unit>
     {
         public Guid UserId { get; set; }
         public Guid VolumeId { get; set; }

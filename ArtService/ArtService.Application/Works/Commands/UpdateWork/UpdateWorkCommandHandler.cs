@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Works.Commands.UpdateWork
 {
     public class UpdateWorkCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<UpdateWorkCommand>
+        : IRequestHandler<UpdateWorkCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(UpdateWorkCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateWorkCommand request, CancellationToken cancellationToken)
         {
             var work = await _dbContext.Works
                 .FirstOrDefaultAsync(work => work.Id == request.WorkId
@@ -23,6 +23,7 @@ namespace ArtService.Application.Works.Commands.UpdateWork
             work.IsFanfic = request.IsFanfic;
             work.OriginalWorkId = request.OriginalWorkId;
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

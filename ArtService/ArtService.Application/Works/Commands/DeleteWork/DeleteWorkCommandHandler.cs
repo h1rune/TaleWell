@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Works.Commands.DeleteWork
 {
     public class DeleteWorkCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<DeleteWorkCommand>
+        : IRequestHandler<DeleteWorkCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(DeleteWorkCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteWorkCommand request, CancellationToken cancellationToken)
         {
             var work = await _dbContext.Works
                 .FirstOrDefaultAsync(work => work.Id == request.WorkId
@@ -20,6 +20,7 @@ namespace ArtService.Application.Works.Commands.DeleteWork
 
             _dbContext.Works.Remove(work);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

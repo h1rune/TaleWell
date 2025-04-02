@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Paragraphs.Commands.UpdateParagraph
 {
     public class UpdateParagraphCommandHandler(IArtServiceDbContext dbContext, IStorageService storageService)
-        : IRequestHandler<UpdateParagraphCommand>
+        : IRequestHandler<UpdateParagraphCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
         private readonly IStorageService _storageService = storageService;
 
-        public async Task Handle(UpdateParagraphCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateParagraphCommand request, CancellationToken cancellationToken)
         {
             var paragraph = await _dbContext.Paragraphs
                 .Include(paragraph => paragraph.RelatedChapter.RelatedVolume.RelatedWork)
@@ -30,6 +30,7 @@ namespace ArtService.Application.Paragraphs.Commands.UpdateParagraph
             paragraph.Order = request.Order;
             paragraph.S3Key = await _storageService.UploadFileAsync(request.Text, path, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

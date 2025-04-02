@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Reactions.Commands.SwitchReaction
 {
     public class SwitchReactionCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<SwitchReactionCommand>
+        : IRequestHandler<SwitchReactionCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(SwitchReactionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SwitchReactionCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Reactions
                 .FirstOrDefaultAsync(reaction => reaction.ParagraphId == request.ParagraphId &&
@@ -36,6 +36,7 @@ namespace ArtService.Application.Reactions.Commands.SwitchReaction
             }
 
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

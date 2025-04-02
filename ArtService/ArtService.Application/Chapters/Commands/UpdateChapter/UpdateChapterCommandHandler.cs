@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Chapters.Commands.UpdateChapter
 {
     public class UpdateChapterCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<UpdateChapterCommand>
+        : IRequestHandler<UpdateChapterCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(UpdateChapterCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateChapterCommand request, CancellationToken cancellationToken)
         {
             var chapter = await _dbContext.Chapters
                 .FirstOrDefaultAsync(chapter => chapter.Id == request.ChapterId, cancellationToken)
@@ -30,6 +30,7 @@ namespace ArtService.Application.Chapters.Commands.UpdateChapter
             chapter.Title = request.Title;
             chapter.Order = request.Order;
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

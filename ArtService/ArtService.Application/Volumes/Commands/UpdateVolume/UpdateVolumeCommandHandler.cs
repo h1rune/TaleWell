@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Volumes.Commands.UpdateVolume
 {
     public class UpdateVolumeCommandHandler(IArtServiceDbContext dbContext, IStorageService storageService)
-        : IRequestHandler<UpdateVolumeCommand>
+        : IRequestHandler<UpdateVolumeCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
         private readonly IStorageService _storageService = storageService;
 
-        public async Task Handle(UpdateVolumeCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateVolumeCommand request, CancellationToken cancellationToken)
         {
             var volume = await _dbContext.Volumes
                 .Include(volume => volume.RelatedWork)
@@ -34,6 +34,7 @@ namespace ArtService.Application.Volumes.Commands.UpdateVolume
                 volume.CoverKey = coverKey;
             }
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Comments.Commands.DeleteComment
 {
     public class DeleteCommentCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<DeleteCommentCommand>
+        : IRequestHandler<DeleteCommentCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Comments
                 .FirstOrDefaultAsync(comment => comment.Id == request.CommentId,
@@ -24,6 +24,7 @@ namespace ArtService.Application.Comments.Commands.DeleteComment
 
             _dbContext.Comments.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ArtService.Application.Reviews.Commands.DeleteReview
 {
     public class DeleteReviewCommandHandler(IArtServiceDbContext dbContext)
-        : IRequestHandler<DeleteReviewCommand>
+        : IRequestHandler<DeleteReviewCommand, Unit>
     {
         private readonly IArtServiceDbContext _dbContext = dbContext;
 
-        public async Task Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Reviews
                 .FirstOrDefaultAsync(review => review.Id == request.ReviewId, cancellationToken);
@@ -23,6 +23,7 @@ namespace ArtService.Application.Reviews.Commands.DeleteReview
 
             _dbContext.Reviews.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }
