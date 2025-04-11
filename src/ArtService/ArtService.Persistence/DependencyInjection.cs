@@ -1,5 +1,4 @@
-﻿using Amazon;
-using Amazon.S3;
+﻿using Amazon.S3;
 using ArtService.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +27,6 @@ namespace ArtService.Persistence
                 var s3Config = new AmazonS3Config
                 {
                     ServiceURL = configuration["S3:ServiceUrl"],
-                    SignatureVersion = "4",
                     ForcePathStyle = true
                 };
                 return new AmazonS3Client(accessKey, secretKey, s3Config);
