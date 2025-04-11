@@ -25,8 +25,13 @@ namespace ArtService.Persistence
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var accessKey = configuration["S3:AccessKey"];
                 var secretKey = configuration["S3:SecretKey"];
-                var region = configuration["S3:Region"];
-                return new AmazonS3Client(accessKey, secretKey, RegionEndpoint.GetBySystemName(region));
+                var s3Config = new AmazonS3Config
+                {
+                    ServiceURL = configuration["S3:ServiceUrl"],
+                    SignatureVersion = "4",
+                    ForcePathStyle = true
+                };
+                return new AmazonS3Client(accessKey, secretKey, s3Config);
             });
 
             services.AddScoped<S3StorageService>();

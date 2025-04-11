@@ -1,5 +1,4 @@
-﻿using Amazon;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Amazon.S3.Model;
 using ArtService.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -9,16 +8,10 @@ using System.Text;
 
 namespace ArtService.Persistence
 {
-    public class S3StorageService : IStorageService
+    public class S3StorageService(IAmazonS3 s3Client, IConfiguration configuration) : IStorageService
     {
-        private readonly IAmazonS3 _s3Client;
-        private readonly string _bucketName;
-
-        public S3StorageService(IAmazonS3 s3Client, IConfiguration configuration)
-        {
-            _bucketName = configuration["S3:BucketName"]!;
-            _s3Client = s3Client;
-        }
+        private readonly IAmazonS3 _s3Client = s3Client;
+        private readonly string _bucketName = configuration["S3:BucketName"]!;
 
         public async Task<string> UploadFileAsync(IFormFile file, string path, CancellationToken cancellationToken)
         {
@@ -30,8 +23,7 @@ namespace ArtService.Persistence
                 InputStream = stream,
                 ContentType = file.ContentType
             };
-
-            await _s3Client.PutObjectAsync(request, cancellationToken);
+            PutObjectResponse putObjectResponse = await _s3Client.PutObjectAsync(request, cancellationToken);
             return path;
         }
 
