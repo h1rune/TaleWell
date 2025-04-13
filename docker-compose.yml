@@ -20,9 +20,61 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik:/letsencrypt
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.${TRAEFIK_DOMAIN}`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.dashboard.service=api@internal"
     networks:
       - tale-net
 
+  art-api:
+    build: ./src/ArtService
+    labels:
+      - "traefik.http.routers.art.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/art`)"
+      - "traefik.http.routers.art.entrypoints=websecure"
+      - "traefik.http.routers.art.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.strip-art-path.stripprefix.prefixes=/art"
+      - "traefik.http.routers.art.middlewares=strip-art-path@docker"
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DB__Connection=Host=art-db;Database=art;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - S3__ServiceUrl=http://minio:9000
+      - S3__AccessKey=${MINIO_ROOT_USER}
+      - S3__SecretKey=${MINIO_ROOT_PASSWORD}
+      - S3__BucketName=${MINIO_BUCKET_NAME}
+    depends_on:
+      - art-db
+      - minio
+    networks:
+      - tale-net
+
+  art-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: art
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./databases/art:/var/lib/postgresql/data
+    networks:
+      - tale-net
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./databases/minio:/data
+    networks:
+      - tale-net
 
 networks:
   tale-net:

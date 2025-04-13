@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace ArtService.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("[controller]/[action]")]
     public abstract class BaseController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;

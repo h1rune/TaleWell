@@ -2,15 +2,10 @@ using ArtService.Application;
 using ArtService.Application.Common.Mappings;
 using ArtService.Application.Interfaces;
 using ArtService.Persistence;
-using ArtService.WebApi;
 using ArtService.WebApi.Middleware;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var root = Directory.GetCurrentDirectory();
-var dotenv = Path.Combine(root, ".env");
-DotEnv.Load(dotenv);
 
 builder.Configuration.AddEnvironmentVariables();
 

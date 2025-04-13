@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArtService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ReviewController(IMediator mediator, IMapper mapper) : BaseController(mediator)
     {
         private readonly IMapper _mapper = mapper;

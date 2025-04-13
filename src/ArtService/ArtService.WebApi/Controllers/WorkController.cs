@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ArtService.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class WorkController(IMediator mediator, IMapper mapper) : BaseController(mediator)
     {
         private readonly IMapper _mapper = mapper;

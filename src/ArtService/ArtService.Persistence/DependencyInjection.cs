@@ -10,7 +10,7 @@ namespace ArtService.Persistence
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration["DbConnection"];
+            var connectionString = configuration["DB:Connection"];
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new ArgumentException("Database connection string is empty", nameof(connectionString));
