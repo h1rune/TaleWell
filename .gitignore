@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 .env
 appsettings.json
+databases/*
 
 =======
 appsettings.json
