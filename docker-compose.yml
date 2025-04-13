@@ -29,6 +29,34 @@ services:
     networks:
       - tale-net
 
+  auth-api:
+    build: ./src/AuthService
+    labels:
+      - "traefik.http.routers.auth.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/auth`)"
+      - "traefik.http.routers.auth.entrypoints=websecure"
+      - "traefik.http.routers.auth.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.strip-auth-path.stripprefix.prefixes=/auth"
+      - "traefik.http.routers.auth.middlewares=strip-auth-path@docker"
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DB__Connection=Host=auth-db;Database=auth;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    depends_on:
+      - auth-db
+    networks:
+      - tale-net
+
+  auth-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./databases/auth:/var/lib/postgresql/data
+    networks:
+      - tale-net
+
   art-api:
     build: ./src/ArtService
     labels:
@@ -37,7 +65,6 @@ services:
       - "traefik.http.routers.art.tls.certresolver=myresolver"
       - "traefik.http.middlewares.strip-art-path.stripprefix.prefixes=/art"
       - "traefik.http.routers.art.middlewares=strip-art-path@docker"
-
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=art-db;Database=art;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -46,6 +73,7 @@ services:
       - S3__SecretKey=${MINIO_ROOT_PASSWORD}
       - S3__BucketName=${MINIO_BUCKET_NAME}
     depends_on:
+      - auth-api
       - art-db
       - minio
     networks:
