@@ -41,12 +41,15 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=auth-db;Database=auth;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-      - Email__From=${EMAIL_FROM}
-      - Email__SMTP=${EMAIL_SMTP}
-      - Email__Port=${EMAIL_PORT}
+      - Email__From=no-reply@${TRAEFIK_DOMAIN}
+      - Email__SMTP=smtp.timeweb.ru
+      - Email__Port=465
       - Email__User=${EMAIL_USER}
       - Email__Password=${EMAIL_PASSWORD}
       - Email__ConfirmLink=https://api.${TRAEFIK_DOMAIN}/auth/confirm-email 
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=https://auth-api
+      - Jwt__Audience=tw-services
     depends_on:
       - auth-db
     networks:

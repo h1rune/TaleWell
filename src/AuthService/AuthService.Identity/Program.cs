@@ -1,9 +1,12 @@
-using AuthService.Application.Common.Mappings;
+﻿using AuthService.Application.Common.Mappings;
 using AuthService.Application.Interfaces;
 using AuthService.Application;
 using System.Reflection;
 using AuthService.Persistence;
 using AuthService.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -31,7 +34,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;
+    options.SaveToken = true; 
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,  
+        ValidateAudience = true,  
+        ValidateLifetime = true, 
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],  
+        ValidAudience = builder.Configuration["Jwt:Audience"], 
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))  
+    };
+});
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
