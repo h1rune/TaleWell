@@ -21,8 +21,8 @@ namespace AuthService.Infrastructure
             message.Body = new TextPart("plain") { Text = $"Для подтвержения перейдите по ссылке: {link}" };
 
             using var client = new SmtpClient();
-            await client.ConnectAsync(_config["Email:Smtp"], 587, SecureSocketOptions.StartTls, cancellationToken);
-            await client.AuthenticateAsync(_config["Email:Username"], _config["Email:Password"], cancellationToken);
+            await client.ConnectAsync(_config["Email:SMTP"], int.Parse(_config["Email:Port"]!), SecureSocketOptions.StartTls, cancellationToken);
+            await client.AuthenticateAsync(_config["Email:User"], _config["Email:Password"], cancellationToken);
             await client.SendAsync(message, cancellationToken);
             await client.DisconnectAsync(true, cancellationToken);
         }

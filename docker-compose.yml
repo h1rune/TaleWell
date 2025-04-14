@@ -41,6 +41,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=auth-db;Database=auth;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - Email__From=${EMAIL_FROM}
+      - Email__SMTP=${EMAIL_SMTP}
+      - Email__Port=${EMAIL_PORT}
+      - Email__User=${EMAIL_USER}
+      - Email__Password=${EMAIL_PASSWORD}
+      - Email__ConfirmLink=https://api.${TRAEFIK_DOMAIN}/auth/confirm-email 
     depends_on:
       - auth-db
     networks:

@@ -1,4 +1,5 @@
-﻿using AuthService.Domain;
+﻿using AuthService.Application.Interfaces;
+using AuthService.Domain;
 using AuthService.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ namespace AuthService.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddIdentity<Account, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = true;
