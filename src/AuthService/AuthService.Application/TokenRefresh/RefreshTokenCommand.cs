@@ -8,5 +8,4 @@ namespace AuthService.Application.TokenRefresh
         public string RefreshToken { get; set; } = null!;
         public string AccountId { get; set; } = null!;
     }
-
 }

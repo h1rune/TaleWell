@@ -1,0 +1,41 @@
+﻿using AuthService.Application.Login;
+using AuthService.Application.LogoutAll;
+using AuthService.Application.TokenRefresh;
+using AuthService.Domain;
+using AuthService.WebApi.Models.Auth;
+using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AuthService.WebApi.Controllers
+{
+    [Route("[controller]")]
+    public class AuthController(IMediator mediator, IMapper mapper) : BaseController(mediator)
+    {
+        private readonly IMapper _mapper = mapper;
+
+        [HttpPost("login")]
+        public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
+        {
+            var command = _mapper.Map<LoginCommand>(loginDto);
+            var token = await Mediator.Send(command);
+            return Ok(token);
+        }
+
+        [HttpPost("logout-all")]
+        public async Task<IActionResult> LogoutAll([FromBody] LogoutAllDto logoutAllDto)
+        {
+            var command = _mapper.Map<LogoutAllCommand>(logoutAllDto);
+            await Mediator.Send(command);
+            return Ok();
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<TokenDto>> RefreshToken([FromBody] RefreshTokenDto refreshTokenDto)
+        {
+            var command = _mapper.Map<RefreshTokenCommand>(refreshTokenDto);
+            var token = await Mediator.Send(command);
+            return Ok(token);
+        }
+    }
+}
