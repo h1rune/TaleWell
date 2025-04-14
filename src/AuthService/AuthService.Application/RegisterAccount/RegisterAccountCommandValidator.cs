@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace AuthService.Application.RegisterUser
+namespace AuthService.Application.RegisterAccount 
 {
-    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+    public class RegisterAccountCommandValidator : AbstractValidator<RegisterAccountCommand>
     {
-        public RegisterUserCommandValidator()
+        public RegisterAccountCommandValidator()
         {
             RuleFor(command => command.Email)
                 .NotEmpty().WithMessage("Email is required.")

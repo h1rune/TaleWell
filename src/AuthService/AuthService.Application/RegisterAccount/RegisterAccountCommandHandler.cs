@@ -4,16 +4,16 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace AuthService.Application.RegisterUser
+namespace AuthService.Application.RegisterAccount
 {
-    public class RegisterUserCommandHandler(UserManager<Account> userManager, IEmailService emailService, IMapper mapper)
-        : IRequestHandler<RegisterUserCommand, Unit>
+    public class RegisterAccountCommandHandler(UserManager<Account> userManager, IEmailService emailService, IMapper mapper)
+        : IRequestHandler<RegisterAccountCommand, Unit>
     {
         private readonly UserManager<Account> _userManager = userManager;
         private readonly IEmailService _emailService = emailService;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<Unit> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RegisterAccountCommand command, CancellationToken cancellationToken)
         {
             var account = _mapper.Map<Account>(command);
             var result = await _userManager.CreateAsync(account, command.Password);

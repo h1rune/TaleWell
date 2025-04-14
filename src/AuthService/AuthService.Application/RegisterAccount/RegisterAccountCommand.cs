@@ -3,16 +3,16 @@ using AuthService.Domain;
 using AutoMapper;
 using MediatR;
 
-namespace AuthService.Application.RegisterUser
+namespace AuthService.Application.RegisterAccount
 {
-    public class RegisterUserCommand : IRequest<Unit>, IMapWith<Account>
+    public class RegisterAccountCommand : IRequest<Unit>, IMapWith<Account>
     {
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<RegisterUserCommand, Account>()
+            profile.CreateMap<RegisterAccountCommand, Account>()
                 .ForMember(account => account.Email, options => options.MapFrom(command => command.Email));
         }
     }
