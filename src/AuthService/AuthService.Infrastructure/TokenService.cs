@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace AuthService.Persistence
+namespace AuthService.Infrastructure
 {
     public class TokenService(IConfiguration config, UserManager<Account> userManager, IAuthServiceDbContext dbContext) 
         : ITokenService
@@ -76,5 +76,4 @@ namespace AuthService.Persistence
                 : await GenerateTokensAsync(account, cancellationToken);
         }
     }
-
 }

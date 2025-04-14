@@ -1,6 +1,4 @@
 ﻿using AuthService.Application.Interfaces;
-using AuthService.Domain;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,24 +17,6 @@ namespace AuthService.Persistence
 
             services.AddDbContext<AuthServiceDbContext>(options => options.UseNpgsql(connectionString));
             services.AddScoped<IAuthServiceDbContext, AuthServiceDbContext>();
-
-            services.AddIdentity<Account, IdentityRole>()
-                .AddEntityFrameworkStores<AuthServiceDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddOpenIddict()
-                .AddCore(opt => opt.UseEntityFrameworkCore().UseDbContext<AuthServiceDbContext>())
-                .AddServer(opt =>
-                {
-                    opt.AllowPasswordFlow();
-                    opt.AllowRefreshTokenFlow();
-                    opt.SetTokenEndpointUris("/connect/token");
-
-                    opt.AddEphemeralEncryptionKey()
-                        .AddEphemeralSigningKey()
-                        .UseAspNetCore()
-                        .EnableTokenEndpointPassthrough();
-                });
 
             return services;
         }

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System.Web;
 
-namespace AuthService.Persistence
+namespace AuthService.Infrastructure
 {
     public class EmailService(IConfiguration config) : IEmailService
     {
