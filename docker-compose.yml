@@ -41,7 +41,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=auth-db;Database=auth;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-      - Email__From=no-reply@${TRAEFIK_DOMAIN}
+      - Email__From=no-reply@talewell.com
       - Email__SMTP=smtp.timeweb.ru
       - Email__Port=465
       - Email__User=${EMAIL_USER}
