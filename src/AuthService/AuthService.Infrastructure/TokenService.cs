@@ -21,7 +21,7 @@ namespace AuthService.Infrastructure
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, account.Id),
+                new Claim(ClaimTypes.NameIdentifier, account.Id),
                 new Claim(JwtRegisteredClaimNames.Email, account.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };

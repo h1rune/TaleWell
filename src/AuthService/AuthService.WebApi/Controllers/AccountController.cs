@@ -16,8 +16,8 @@ namespace AuthService.WebApi.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             var command = _mapper.Map<RegisterAccountCommand>(registerDto);
-            await Mediator.Send(command);
-            return Accepted();
+            var accountId = await Mediator.Send(command);
+            return Ok(accountId);
         }
 
         [HttpGet("confirm-email")]
@@ -25,7 +25,7 @@ namespace AuthService.WebApi.Controllers
         {
             var command = _mapper.Map<ConfirmEmailCommand>(confirmDto);
             await Mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
     }
 }

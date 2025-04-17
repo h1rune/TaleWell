@@ -7,6 +7,7 @@ using ArtService.Application.Works.Queries.GetWorks;
 using ArtService.WebApi.Models.WorkModels;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtService.WebApi.Controllers
@@ -26,6 +27,7 @@ namespace ArtService.WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update([FromBody] UpdateWorkDto updateDto)
         {
             var updateCommand = _mapper.Map<UpdateWorkCommand>(updateDto);
@@ -35,6 +37,7 @@ namespace ArtService.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             var deleteCommand = new DeleteWorkCommand

@@ -35,6 +35,8 @@ namespace AuthService.Infrastructure
                     .EnableTokenEndpointPassthrough();
             });
 
+            services.AddScoped<ITokenService, TokenService>();
+
             services.AddScoped<ITokenCleanupService, TokenCleanupService>();
             services.AddHostedService<TokenCleanupService>();
 

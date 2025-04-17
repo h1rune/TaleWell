@@ -2,7 +2,7 @@
 using AuthService.Application.LogoutAll;
 using AuthService.Application.TokenRefresh;
 using AuthService.Domain;
-using AuthService.WebApi.Models.Auth;
+using AuthService.WebApi.Models.Session;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthService.WebApi.Controllers
 {
     [Route("[controller]")]
-    public class AuthController(IMediator mediator, IMapper mapper) : BaseController(mediator)
+    public class SessionController(IMediator mediator, IMapper mapper) : BaseController(mediator)
     {
         private readonly IMapper _mapper = mapper;
 
@@ -19,12 +19,22 @@ namespace AuthService.WebApi.Controllers
         {
             var command = _mapper.Map<LoginCommand>(loginDto);
             var token = await Mediator.Send(command);
+
+            Response.Cookies.Append("access_token", token.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+            });
+
             return Ok(token);
         }
 
         [HttpPost("logout-all")]
         public async Task<IActionResult> LogoutAll([FromBody] LogoutAllDto logoutAllDto)
         {
+            Response.Cookies.Delete("access_token");
             var command = _mapper.Map<LogoutAllCommand>(logoutAllDto);
             await Mediator.Send(command);
             return Ok();

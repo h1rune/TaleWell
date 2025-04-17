@@ -5,7 +5,7 @@ using MediatR;
 
 namespace AuthService.Application.RegisterAccount
 {
-    public class RegisterAccountCommand : IRequest<Unit>, IMapWith<Account>
+    public class RegisterAccountCommand : IRequest<string>, IMapWith<Account>
     {
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
@@ -13,7 +13,8 @@ namespace AuthService.Application.RegisterAccount
         public void Mapping(Profile profile)
         {
             profile.CreateMap<RegisterAccountCommand, Account>()
-                .ForMember(account => account.Email, options => options.MapFrom(command => command.Email));
+                .ForMember(account => account.Email, options => options.MapFrom(command => command.Email))
+                .ForMember(account => account.UserName, options => options.MapFrom(command => command.Email));
         }
     }
 }

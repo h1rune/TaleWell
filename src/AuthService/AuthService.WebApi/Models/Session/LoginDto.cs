@@ -2,7 +2,7 @@
 using AuthService.Application.Login;
 using AutoMapper;
 
-namespace AuthService.WebApi.Models.Auth
+namespace AuthService.WebApi.Models.Session
 {
     public class LoginDto : IMapWith<LoginCommand>
     {

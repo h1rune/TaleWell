@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   traefik:
-    image: traefik:v3.0
+    image: traefik:latest
     command:
       - --api.dashboard=true
       - --providers.docker=true
@@ -19,7 +19,7 @@ services:
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik:/letsencrypt
+      - traefik-data:/letsencrypt
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`dashboard.${TRAEFIK_DOMAIN}`)"
@@ -36,7 +36,8 @@ services:
       - "traefik.http.routers.auth.entrypoints=websecure"
       - "traefik.http.routers.auth.tls.certresolver=myresolver"
       - "traefik.http.middlewares.strip-auth-path.stripprefix.prefixes=/auth"
-      - "traefik.http.routers.auth.middlewares=strip-auth-path@docker"
+      - "traefik.http.middlewares.keep-auth.headers.customrequestheaders.Authorization=keep"
+      - "traefik.http.routers.auth.middlewares=strip-auth-path@docker,keep-auth@docker"
 
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -46,23 +47,24 @@ services:
       - Email__Port=465
       - Email__User=${EMAIL_USER}
       - Email__Password=${EMAIL_PASSWORD}
-      - Email__ConfirmLink=https://api.${TRAEFIK_DOMAIN}/auth/confirm-email 
+      - Email__ConfirmLink=https://api.${TRAEFIK_DOMAIN}/auth/account/confirm-email 
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=https://auth-api
       - Jwt__Audience=tw-services
     depends_on:
       - auth-db
+      - traefik 
     networks:
       - tale-net
 
   auth-db:
-    image: postgres:15
+    image: postgres:latest
     environment:
       POSTGRES_DB: auth
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./databases/auth:/var/lib/postgresql/data
+      - auth-db-data:/var/lib/postgresql/data
     networks:
       - tale-net
 
@@ -73,7 +75,8 @@ services:
       - "traefik.http.routers.art.entrypoints=websecure"
       - "traefik.http.routers.art.tls.certresolver=myresolver"
       - "traefik.http.middlewares.strip-art-path.stripprefix.prefixes=/art"
-      - "traefik.http.routers.art.middlewares=strip-art-path@docker"
+      - "traefik.http.middlewares.keep-art.headers.customrequestheaders.Authorization=keep"
+      - "traefik.http.routers.art.middlewares=strip-art-path@docker,keep-art@docker"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=art-db;Database=art;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -81,21 +84,25 @@ services:
       - S3__AccessKey=${MINIO_ROOT_USER}
       - S3__SecretKey=${MINIO_ROOT_PASSWORD}
       - S3__BucketName=${MINIO_BUCKET_NAME}
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=https://auth-api
+      - Jwt__Audience=tw-services
     depends_on:
       - auth-api
       - art-db
       - minio
+      - traefik
     networks:
       - tale-net
 
   art-db:
-    image: postgres:15
+    image: postgres:latest
     environment:
       POSTGRES_DB: art
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./databases/art:/var/lib/postgresql/data
+      - art-db-data:/var/lib/postgresql/data
     networks:
       - tale-net
 
@@ -109,9 +116,15 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - ./databases/minio:/data
+      - minio-data:/data
     networks:
       - tale-net
+
+volumes:
+  auth-db-data:
+  art-db-data:
+  traefik-data:
+  minio-data:
 
 networks:
   tale-net:

@@ -2,7 +2,7 @@
 using AuthService.Application.LogoutAll;
 using AutoMapper;
 
-namespace AuthService.WebApi.Models.Auth
+namespace AuthService.WebApi.Models.Session
 {
     public class LogoutAllDto : IMapWith<LogoutAllCommand>
     {
