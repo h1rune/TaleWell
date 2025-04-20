@@ -19,15 +19,6 @@ namespace AuthService.WebApi.Controllers
         {
             var command = _mapper.Map<LoginCommand>(loginDto);
             var token = await Mediator.Send(command);
-
-            Response.Cookies.Append("access_token", token.AccessToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddMinutes(60)
-            });
-
             return Ok(token);
         }
 

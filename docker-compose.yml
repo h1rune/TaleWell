@@ -36,8 +36,7 @@ services:
       - "traefik.http.routers.auth.entrypoints=websecure"
       - "traefik.http.routers.auth.tls.certresolver=myresolver"
       - "traefik.http.middlewares.strip-auth-path.stripprefix.prefixes=/auth"
-      - "traefik.http.middlewares.keep-auth.headers.customrequestheaders.Authorization=keep"
-      - "traefik.http.routers.auth.middlewares=strip-auth-path@docker,keep-auth@docker"
+      - "traefik.http.routers.auth.middlewares=strip-auth-path@docker"
 
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -49,7 +48,7 @@ services:
       - Email__Password=${EMAIL_PASSWORD}
       - Email__ConfirmLink=https://api.${TRAEFIK_DOMAIN}/auth/account/confirm-email 
       - Jwt__Key=${JWT_KEY}
-      - Jwt__Issuer=https://auth-api
+      - Jwt__Issuer=https://api.${TRAEFIK_DOMAIN}/auth
       - Jwt__Audience=tw-services
     depends_on:
       - auth-db
@@ -75,8 +74,7 @@ services:
       - "traefik.http.routers.art.entrypoints=websecure"
       - "traefik.http.routers.art.tls.certresolver=myresolver"
       - "traefik.http.middlewares.strip-art-path.stripprefix.prefixes=/art"
-      - "traefik.http.middlewares.keep-art.headers.customrequestheaders.Authorization=keep"
-      - "traefik.http.routers.art.middlewares=strip-art-path@docker,keep-art@docker"
+      - "traefik.http.routers.art.middlewares=strip-art-path@docker"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=art-db;Database=art;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -85,7 +83,7 @@ services:
       - S3__SecretKey=${MINIO_ROOT_PASSWORD}
       - S3__BucketName=${MINIO_BUCKET_NAME}
       - Jwt__Key=${JWT_KEY}
-      - Jwt__Issuer=https://auth-api
+      - Jwt__Issuer=https://api.${TRAEFIK_DOMAIN}/auth
       - Jwt__Audience=tw-services
     depends_on:
       - auth-api

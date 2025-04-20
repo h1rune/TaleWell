@@ -18,6 +18,7 @@ namespace ArtService.WebApi.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateWorkDto createDto)
         {
             var createCommand = _mapper.Map<CreateWorkCommand>(createDto);

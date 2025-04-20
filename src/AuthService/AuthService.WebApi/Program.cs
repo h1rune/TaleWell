@@ -4,9 +4,6 @@ using AuthService.Application;
 using System.Reflection;
 using AuthService.Persistence;
 using AuthService.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -34,38 +31,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.Events = new JwtBearerEvents
-    {
-        OnMessageReceived = context =>
-        {
-            if (context.Request.Headers.ContainsKey("Authorization"))
-            {
-                return Task.CompletedTask;
-            }
-            if (context.Request.Cookies.ContainsKey("access_token"))
-            {
-                context.Token = context.Request.Cookies["access_token"];
-            }
-            return Task.CompletedTask;
-        }
-    };
-    options.RequireHttpsMetadata = true;
-    options.SaveToken = true; 
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,  
-        ValidateAudience = true,  
-        ValidateLifetime = true, 
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],  
-        ValidAudience = builder.Configuration["Jwt:Audience"], 
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))  
-    };
-});
-builder.Services.AddAuthorization();
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -85,9 +50,6 @@ using (var scope = app.Services.CreateScope())
 
 app.UseRouting();
 app.UseCors("AllowAll");
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseHttpsRedirection();
 app.MapControllers();
