@@ -1,4 +1,4 @@
-using ArtService.Application.Common.Mappings;
+﻿using ArtService.Application.Common.Mappings;
 using ArtService.Application.Interfaces;
 using ArtService.Persistence;
 using ArtService.Application;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,13 +23,15 @@ builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddControllers();
 
+var domain = builder.Configuration["Domain"]!;
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("Allow", policy =>
     {
+        policy.WithOrigins(domain, $"api.{domain}");
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
-        policy.AllowAnyOrigin();
+        policy.AllowCredentials();
     });
 });
 
@@ -39,6 +42,18 @@ builder.Services.AddAuthentication(config =>
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            if (context.Request.Cookies.TryGetValue("access_token", out var token))
+            {
+                context.Token = token;
+            }
+            return Task.CompletedTask;
+        }
+    };
+
     options.RequireHttpsMetadata = true;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
@@ -53,6 +68,39 @@ builder.Services.AddAuthentication(config =>
     };
 });
 builder.Services.AddAuthorization();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Art Service API",
+        Version = "v1"
+    });
+    options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Cookie,
+        Name = "access_token",
+        Description = "Access token из cookie"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "cookieAuth"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -70,7 +118,8 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(exception, "An error occurred while app initialization");
     }
 }
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseCustomExceptionHandler();
 app.UseRouting();
 app.UseHttpsRedirection();

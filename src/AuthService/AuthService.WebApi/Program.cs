@@ -4,6 +4,7 @@ using AuthService.Application;
 using System.Reflection;
 using AuthService.Persistence;
 using AuthService.Infrastructure;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -21,13 +22,48 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+var domain = builder.Configuration["Domain"]!;
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("Allow", policy =>
     {
+        policy.WithOrigins(domain, $"api.{domain}");
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
-        policy.AllowAnyOrigin();
+        policy.AllowCredentials();
+    });
+});
+
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Auth Service API",
+        Version = "v1"
+    });
+    options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Cookie,
+        Name = "access_token",
+        Description = "Access token из cookie"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "cookieAuth"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
 });
 
@@ -48,8 +84,11 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.UseSwagger();            
+app.UseSwaggerUI();
+
 app.UseRouting();
-app.UseCors("AllowAll");
+app.UseCors("Allow");
 
 app.UseHttpsRedirection();
 app.MapControllers();

@@ -5,10 +5,24 @@ using AutoMapper;
 
 namespace ArtService.WebApi.Models.ReviewModels
 {
+    /// <summary>
+    /// DTO для обновления существующего отзыва.
+    /// </summary>
     public class UpdateReviewDto : IMapWith<UpdateReviewCommand>
     {
+        /// <summary>
+        /// Идентификатор отзыва, который нужно обновить.
+        /// </summary>
         public Guid ReviewId { get; set; }
+
+        /// <summary>
+        /// Оценка отзыва, представлена как тип реакции.
+        /// </summary>
         public ReactionType Mark { get; set; }
+
+        /// <summary>
+        /// Новый текст отзыва.
+        /// </summary>
         public string Text { get; set; } = null!;
 
         public void Mapping(Profile profile)

@@ -3,9 +3,8 @@ using MediatR;
 
 namespace AuthService.Application.TokenRefresh
 {
-    public class RefreshTokenCommand : IRequest<TokenDto>
+    public class RefreshTokenCommand : IRequest<TokensDto>
     {
         public string RefreshToken { get; set; } = null!;
-        public string AccountId { get; set; } = null!;
     }
 }

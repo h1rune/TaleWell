@@ -1,38 +1,38 @@
 ﻿using ArtService.Application.Common.Mappings;
-using ArtService.Application.Volumes.Commands.CreateVolume;
+using ArtService.Application.Volumes.Commands.UpdateVolume;
 using AutoMapper;
 
 namespace ArtService.WebApi.Models.VolumeModels
 {
     /// <summary>
-    /// DTO для создания тома произведения.
+    /// DTO для обновления информации о томе.
     /// </summary>
-    public class CreateVolumeDto : IMapWith<CreateVolumeCommand>
+    public class UpdateVolumeDto : IMapWith<UpdateVolumeCommand>
     {
         /// <summary>
-        /// Идентификатор произведения, к которому относится том.
+        /// Идентификатор тома.
         /// </summary>
-        public Guid WorkId { get; set; }
+        public Guid VolumeId { get; set; }
 
         /// <summary>
-        /// Порядковый номер тома.
+        /// Новый порядковый номер.
         /// </summary>
         public int Order { get; set; }
 
         /// <summary>
-        /// Название тома (опционально).
+        /// Новое название (опционально).
         /// </summary>
         public string? Title { get; set; }
 
         /// <summary>
-        /// Обложка тома (опционально).
+        /// Новая обложка (опционально).
         /// </summary>
         public IFormFile? CoverFile { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreateVolumeDto, CreateVolumeCommand>()
-                .ForMember(command => command.WorkId, options => options.MapFrom(dto => dto.WorkId))
+            profile.CreateMap<UpdateVolumeDto, UpdateVolumeCommand>()
+                .ForMember(command => command.VolumeId, options => options.MapFrom(dto => dto.VolumeId))
                 .ForMember(command => command.Order, options => options.MapFrom(dto => dto.Order))
                 .ForMember(command => command.Title, options => options.MapFrom(dto => dto.Title))
                 .ForMember(command => command.CoverFile, options => options.MapFrom(dto => dto.CoverFile));

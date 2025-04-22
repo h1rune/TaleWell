@@ -17,7 +17,7 @@ namespace AuthService.Infrastructure
         private readonly UserManager<Account> _userManager = userManager;
         private readonly IAuthServiceDbContext _dbContext = dbContext;
 
-        public async Task<TokenDto> GenerateTokensAsync(Account account, CancellationToken cancellationToken)
+        public async Task<TokensDto> GenerateTokensAsync(Account account, CancellationToken cancellationToken)
         {
             var claims = new[]
             {
@@ -50,19 +50,19 @@ namespace AuthService.Infrastructure
             await _dbContext.RefreshTokens.AddAsync(refreshToken, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new TokenDto
+            return new TokensDto
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken),
                 RefreshToken = refreshTokenValue,
-                ExpiresAt = expiry
+                AccessExpiresAt = expiry,
+                RefreshExpiresAt = refreshToken.ExpiresAt
             };
         }
 
-        public async Task<TokenDto> RefreshTokenAsync(string refreshTokenValue, string accountId, CancellationToken cancellationToken)
+        public async Task<TokensDto> RefreshTokenAsync(string refreshTokenValue, CancellationToken cancellationToken)
         {
             var token = await _dbContext.RefreshTokens
-                .FirstOrDefaultAsync(refresh => refresh.Token == refreshTokenValue 
-                    && refresh.AccountId == accountId, cancellationToken);
+                .FirstOrDefaultAsync(refresh => refresh.Token == refreshTokenValue, cancellationToken);
 
             if (token == null || token.ExpiresAt < DateTime.UtcNow || token.IsRevoked)
                 throw new UnauthorizedAccessException("Invalid or expired refresh token.");
@@ -71,7 +71,7 @@ namespace AuthService.Infrastructure
             _dbContext.RefreshTokens.Update(token);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var account = await _userManager.FindByIdAsync(accountId);
+            var account = await _userManager.FindByIdAsync(token.AccountId);
             return account == null
                 ? throw new UnauthorizedAccessException("User not found.")
                 : await GenerateTokensAsync(account, cancellationToken);

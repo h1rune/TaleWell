@@ -4,11 +4,29 @@ using AutoMapper;
 
 namespace ArtService.WebApi.Models.WorkModels
 {
+    /// <summary>
+    /// DTO для создания нового литературного произведения.
+    /// </summary>
     public class CreateWorkDto : IMapWith<CreateWorkCommand>
     {
+        /// <summary>
+        /// Название произведения.
+        /// </summary>
         public string Title { get; set; } = null!;
+
+        /// <summary>
+        /// Описание произведения.
+        /// </summary>
         public string? Description { get; set; }
+
+        /// <summary>
+        /// Указывает, является ли произведение фанфиком.
+        /// </summary>
         public bool IsFanfic { get; set; }
+
+        /// <summary>
+        /// Идентификатор оригинального произведения, если это фанфик.
+        /// </summary>
         public Guid? OriginalWorkId { get; set; }
 
         public void Mapping(Profile profile)

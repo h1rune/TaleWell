@@ -4,9 +4,19 @@ using AutoMapper;
 
 namespace ArtService.WebApi.Models.WorkModels
 {
+    /// <summary>
+    /// DTO для получения списка произведений.
+    /// </summary>
     public class GetWorksDto : IMapWith<GetWorksQuery>
     {
+        /// <summary>
+        /// Смещение для пагинации.
+        /// </summary>
         public int? Offset { get; set; }
+
+        /// <summary>
+        /// Лимит количества возвращаемых записей.
+        /// </summary>
         public int? Limit { get; set; }
 
         public void Mapping(Profile profile)

@@ -16,8 +16,8 @@ namespace ArtService.Application.Paragraphs.Commands.UpdateParagraph
         {
             var paragraph = await _dbContext.Paragraphs
                 .Include(paragraph => paragraph.RelatedChapter.RelatedVolume.RelatedWork)
-                .FirstOrDefaultAsync(paragraph => paragraph.Id == request.Id, cancellationToken)
-                ?? throw new NotFoundException(nameof(Paragraph), request.Id);
+                .FirstOrDefaultAsync(paragraph => paragraph.Id == request.ParagraphId, cancellationToken)
+                ?? throw new NotFoundException(nameof(Paragraph), request.ParagraphId);
 
             var work = paragraph.RelatedChapter.RelatedVolume.RelatedWork;
             if (work.AuthorId != request.UserId)

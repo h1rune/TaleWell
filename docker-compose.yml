@@ -50,6 +50,7 @@ services:
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=https://api.${TRAEFIK_DOMAIN}/auth
       - Jwt__Audience=tw-services
+      - Domain=${TRAEFIK_DOMAIN}
     depends_on:
       - auth-db
       - traefik 
@@ -85,6 +86,7 @@ services:
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=https://api.${TRAEFIK_DOMAIN}/auth
       - Jwt__Audience=tw-services
+      - Domain=${TRAEFIK_DOMAIN}
     depends_on:
       - auth-api
       - art-db
