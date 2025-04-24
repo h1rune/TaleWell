@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChannelService.Domain\ChannelService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
