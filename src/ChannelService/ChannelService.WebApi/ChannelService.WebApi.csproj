@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChannelService.Application\ChannelService.Application.csproj" />
+    <ProjectReference Include="..\ChannelService.Persistence\ChannelService.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

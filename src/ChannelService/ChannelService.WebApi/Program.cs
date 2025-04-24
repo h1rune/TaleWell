@@ -1,6 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using ChannelService.Persistence;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddPersistence(builder.Configuration);
+
+var app = builder.Build();
 
 app.Run();
