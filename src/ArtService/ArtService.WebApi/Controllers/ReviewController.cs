@@ -109,7 +109,7 @@ namespace ArtService.WebApi.Controllers
         [HttpGet("list")]
         [ProducesResponseType(typeof(WorkReviewsVm), 200)]  // Атрибут для успешного ответа с данными
         [ProducesResponseType(400)]  // Атрибут для ошибки валидации
-        public async Task<ActionResult<WorkReviewsVm>> GetWorkReviews([FromBody] GetWorkReviewsDto workReviewsDto)
+        public async Task<ActionResult<WorkReviewsVm>> GetWorkReviews([FromQuery] GetWorkReviewsDto workReviewsDto)
         {
             var query = _mapper.Map<GetWorkReviewsQuery>(workReviewsDto);
             var workReviewsVm = await Mediator.Send(query);

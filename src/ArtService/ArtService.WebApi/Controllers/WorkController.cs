@@ -133,7 +133,7 @@ namespace ArtService.WebApi.Controllers
         [ProducesResponseType(400)]  // Неверный запрос
         [ProducesResponseType(401)]  // Неавторизованный доступ
         [ProducesResponseType(500)]  // Внутренняя ошибка сервера
-        public async Task<ActionResult<WorksVm>> GetWorks([FromBody] GetWorksDto getDto)
+        public async Task<ActionResult<WorksVm>> GetWorks([FromQuery] GetWorksDto getDto)
         {
             var getQuery = _mapper.Map<GetWorksQuery>(getDto);
             WorksVm worksVm = await Mediator.Send(getQuery);
@@ -154,7 +154,7 @@ namespace ArtService.WebApi.Controllers
         [ProducesResponseType(400)]  // Неверный запрос
         [ProducesResponseType(401)]  // Неавторизованный доступ
         [ProducesResponseType(500)]  // Внутренняя ошибка сервера
-        public async Task<ActionResult<FanficsVm>> GetFanfics([FromBody] GetFanficsDto getDto)
+        public async Task<ActionResult<FanficsVm>> GetFanfics([FromQuery] GetFanficsDto getDto)
         {
             var getQuery = _mapper.Map<GetFanficsQuery>(getDto);
             FanficsVm worksVm = await Mediator.Send(getQuery);

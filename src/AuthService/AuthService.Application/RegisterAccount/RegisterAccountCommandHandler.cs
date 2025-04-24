@@ -16,11 +16,9 @@ namespace AuthService.Application.RegisterAccount
         public async Task<string> Handle(RegisterAccountCommand command, CancellationToken cancellationToken)
         {
             var account = _mapper.Map<Account>(command);
-            await _userManager.CreateAsync(account, command.Password);
-
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
             await _emailService.SendEmailConfirmationAsync(account.Email!, account.Id, token, cancellationToken);
-
+            await _userManager.CreateAsync(account, command.Password);
             return account.Id;
         }
     }
