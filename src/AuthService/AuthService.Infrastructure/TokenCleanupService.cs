@@ -34,7 +34,7 @@ namespace AuthService.Infrastructure
                     .Where(token => token.ExpiresAt < DateTime.UtcNow || token.IsRevoked)
                     .ToListAsync(cancellationToken);
 
-                if (expiredTokens.Any())
+                if (expiredTokens.Count != 0)
                 {
                     dbContext.RefreshTokens.RemoveRange(expiredTokens);
                     await dbContext.SaveChangesAsync(cancellationToken);

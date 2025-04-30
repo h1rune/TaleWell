@@ -11,7 +11,7 @@ namespace ChannelService.Application.Posts.Commands.CreatePost
 
         public async Task<Guid> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            Post post = new()
+            var post = new Post
             {
                 Id = Guid.NewGuid(),
                 ChannelId = request.ChannelId,

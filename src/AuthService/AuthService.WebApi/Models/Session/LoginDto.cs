@@ -13,13 +13,13 @@ namespace AuthService.WebApi.Models.Session
         /// Email пользователя.
         /// </summary>
         /// <example>user@example.com</example>
-        public string Email { get; set; } = null!;
+        public required string Email { get; set; }
 
         /// <summary>
         /// Пароль пользователя.
         /// </summary>
         /// <example>MySecurePassword123!</example>
-        public string Password { get; set; } = null!;
+        public required string Password { get; set; }
 
         public void Mapping(Profile profile)
         {

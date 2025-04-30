@@ -22,7 +22,6 @@ namespace AuthService.Infrastructure
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, account.Id),
-                new Claim(ClaimTypes.Name, account.Email!),
                 new Claim(JwtRegisteredClaimNames.Email, account.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -71,10 +70,10 @@ namespace AuthService.Infrastructure
             _dbContext.RefreshTokens.Update(token);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var account = await _userManager.FindByIdAsync(token.AccountId);
-            return account == null
-                ? throw new UnauthorizedAccessException("User not found.")
-                : await GenerateTokensAsync(account, cancellationToken);
+            var account = await _userManager.FindByIdAsync(token.AccountId)
+                ?? throw new UnauthorizedAccessException("User not found.");
+
+            return await GenerateTokensAsync(account, cancellationToken);
         }
     }
 }

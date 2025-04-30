@@ -13,13 +13,13 @@ namespace AuthService.WebApi.Models.Account
         /// Email пользователя. Используется как логин.
         /// </summary>
         /// <example>user@example.com</example>
-        public string Email { get; set; } = null!;
+        public required string Email { get; set; }
 
         /// <summary>
         /// Пароль. Должен соответствовать требованиям безопасности.
         /// </summary>
         /// <example>StrongP@ssw0rd15</example>
-        public string Password { get; set; } = null!;
+        public required string Password { get; set; }
 
         public void Mapping(Profile profile)
         {

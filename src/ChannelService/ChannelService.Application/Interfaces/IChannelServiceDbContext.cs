@@ -7,6 +7,7 @@ namespace ChannelService.Application.Interfaces
     {
         DbSet<Post> Posts { get; set; }
         DbSet<Reaction> Reactions { get; set; }
+        DbSet<Channel> Channels { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

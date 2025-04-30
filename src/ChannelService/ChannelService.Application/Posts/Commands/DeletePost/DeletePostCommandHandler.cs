@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChannelService.Application.Posts.Commands.DeletePost
 {
-    public class DeletePostCpmmandHandler(IChannelServiceDbContext dbContext)
+    public class DeletePostCommandHandler(IChannelServiceDbContext dbContext)
         : IRequestHandler<DeletePostCommand, Unit>
     {
         private readonly IChannelServiceDbContext _dbContext = dbContext;

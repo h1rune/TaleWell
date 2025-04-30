@@ -13,7 +13,7 @@ namespace AuthService.WebApi.Models.Session
         /// Уникальный идентификатор аккаунта.
         /// </summary>
         /// <example>f3a4d7bc-9c9e-4f44-a2d3-fb9d5c112233</example>
-        public string AccountId { get; set; } = null!;
+        public required string AccountId { get; set; }
 
         public void Mapping(Profile profile)
         {

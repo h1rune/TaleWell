@@ -4,6 +4,6 @@ namespace AuthService.Application.LogoutAll
 {
     public class LogoutAllCommand : IRequest<Unit>
     {
-        public string AccountId { get; set; } = null!;
+        public required string AccountId { get; set; }
     }
 }
