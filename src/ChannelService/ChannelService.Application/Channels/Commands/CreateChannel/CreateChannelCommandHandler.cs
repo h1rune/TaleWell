@@ -5,11 +5,11 @@ using MediatR;
 namespace ChannelService.Application.Channels.Commands.CreateChannel
 {
     public class CreateChannelCommandHandler(IChannelServiceDbContext dbContext)
-        : IRequestHandler<CreateChannelCommand, Guid>
+        : IRequestHandler<CreateChannelCommand, Unit>
     {
         private readonly IChannelServiceDbContext _dbContext = dbContext;
         
-        public async Task<Guid> Handle(CreateChannelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateChannelCommand request, CancellationToken cancellationToken)
         {
             var channel = new Channel
             {
@@ -21,7 +21,7 @@ namespace ChannelService.Application.Channels.Commands.CreateChannel
 
             await _dbContext.Channels.AddAsync(channel, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return channel.Id;
+            return Unit.Value;
         }
     }
 }

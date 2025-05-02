@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
 {
-    public class GetChannelByHandleCommandHandler(IChannelServiceDbContext dbContext, IMapper mapper)
-        : IRequestHandler<GetChannelByHandleCommand, ChannelVm>
+    public class GetChannelByHandleQueryHandler(IChannelServiceDbContext dbContext, IMapper mapper)
+        : IRequestHandler<GetChannelByHandleQuery, ChannelVm>
     {
         private readonly IChannelServiceDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<ChannelVm> Handle(GetChannelByHandleCommand request, CancellationToken cancellationToken)
+        public async Task<ChannelVm> Handle(GetChannelByHandleQuery request, CancellationToken cancellationToken)
         {
             var channelEntity = await _dbContext.Channels
                 .FirstOrDefaultAsync(channel => channel.Handle == request.Handle, cancellationToken)

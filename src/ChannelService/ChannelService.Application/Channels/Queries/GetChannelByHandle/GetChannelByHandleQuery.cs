@@ -2,7 +2,7 @@
 
 namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
 {
-    public class GetChannelByHandleCommand : IRequest<ChannelVm>
+    public class GetChannelByHandleQuery : IRequest<ChannelVm>
     {
         public required string Handle { get; set; }
     }

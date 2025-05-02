@@ -2,7 +2,7 @@
 
 namespace ChannelService.Application.Channels.Commands.CreateChannel
 {
-    public class CreateChannelCommand : IRequest<Guid>
+    public class CreateChannelCommand : IRequest<Unit>
     {
         public Guid ChannelId { get; set; }
         public required string Title { get; set; }

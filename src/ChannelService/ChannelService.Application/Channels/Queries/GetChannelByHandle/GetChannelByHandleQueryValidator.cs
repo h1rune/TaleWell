@@ -2,9 +2,9 @@
 
 namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
 {
-    public class GetChannelByHandleCommandValidator : AbstractValidator<GetChannelByHandleCommand>
+    public class GetChannelByHandleQueryValidator : AbstractValidator<GetChannelByHandleQuery>
     {
-        public GetChannelByHandleCommandValidator()
+        public GetChannelByHandleQueryValidator()
         {
             RuleFor(command => command.Handle)
                 .NotEmpty().WithMessage("Handle must not be empty.");

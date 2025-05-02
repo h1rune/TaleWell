@@ -1,9 +1,11 @@
-using ChannelService.Application;
+﻿using ChannelService.Application;
 using ChannelService.Application.Common.Mappings;
 using ChannelService.Application.Interfaces;
 using ChannelService.Persistence;
+using ChannelService.WebApi.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 
@@ -67,6 +69,43 @@ builder.Services.AddAuthentication(config =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+    options.AddServer(new OpenApiServer
+    {
+        Url = "/channel"
+    });
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Channel Service API",
+        Version = "v1"
+    });
+    options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Cookie,
+        Name = "access_token",
+        Description = "Access token из cookie"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "cookieAuth"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -83,5 +122,14 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(exception, "An error occurred while app initialization");
     }
 }
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseCustomExceptionHandler();
+app.UseRouting();
+app.UseHttpsRedirection();
+app.UseCors("Allow");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
