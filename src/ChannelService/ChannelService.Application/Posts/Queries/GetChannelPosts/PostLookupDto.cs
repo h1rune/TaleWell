@@ -6,6 +6,7 @@
         public required string Text { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? EditedAt { get; set; }
+        public int ViewsNumber { get; set; }
 
         public IList<ReactionSummaryDto> Reactions { get; set; } = [];
     }

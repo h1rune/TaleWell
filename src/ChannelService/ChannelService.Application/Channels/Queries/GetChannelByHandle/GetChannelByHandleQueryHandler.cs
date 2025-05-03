@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ChannelService.Application.Common.Exceptions;
+﻿using ChannelService.Application.Common.Exceptions;
 using ChannelService.Application.Interfaces;
 using ChannelService.Domain;
 using MediatR;
@@ -7,19 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
 {
-    public class GetChannelByHandleQueryHandler(IChannelServiceDbContext dbContext, IMapper mapper)
+    public class GetChannelByHandleQueryHandler(IChannelServiceDbContext dbContext)
         : IRequestHandler<GetChannelByHandleQuery, ChannelVm>
     {
         private readonly IChannelServiceDbContext _dbContext = dbContext;
-        private readonly IMapper _mapper = mapper;
 
         public async Task<ChannelVm> Handle(GetChannelByHandleQuery request, CancellationToken cancellationToken)
         {
-            var channelEntity = await _dbContext.Channels
-                .FirstOrDefaultAsync(channel => channel.Handle == request.Handle, cancellationToken)
-                ?? throw new NotFoundException(nameof(Channel), request.Handle);
+            var channelVm = await _dbContext.Channels
+                .Where(channel => channel.Handle == request.ChannelHandle)
+                .Select(channel => new ChannelVm
+                {
+                    Title = channel.Title,
+                    Handle = channel.Handle,
+                    Description = channel.Description,
+                    FollowersNumber = channel.Followers.Count(),
+                    IsActorSubscribed = channel.Followers.Any(subscription => subscription.FollowerId == request.ActorId)
+                })
+                .FirstOrDefaultAsync(cancellationToken)
+                ?? throw new NotFoundException(nameof(Channel), request.ChannelHandle);
 
-            var channelVm = _mapper.Map<ChannelVm>(channelEntity);
             return channelVm;
         }
     }

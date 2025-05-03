@@ -11,5 +11,6 @@
         public DateTime? EditedAt { get; set; }
 
         public IList<Reaction> Reactions { get; set; } = [];
+        public IList<PostView> PostViews { get; set; } = [];
     }
 }

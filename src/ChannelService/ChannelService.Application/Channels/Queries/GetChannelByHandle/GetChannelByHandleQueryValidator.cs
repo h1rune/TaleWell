@@ -6,8 +6,10 @@ namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
     {
         public GetChannelByHandleQueryValidator()
         {
-            RuleFor(command => command.Handle)
+            RuleFor(command => command.ChannelHandle)
                 .NotEmpty().WithMessage("Handle must not be empty.");
+            RuleFor(command => command.ActorId)
+                .NotEmpty().WithMessage("Actor ID must not be empty.");
         }
     }
 }

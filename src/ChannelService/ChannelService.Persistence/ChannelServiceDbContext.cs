@@ -11,12 +11,16 @@ namespace ChannelService.Persistence
         public DbSet<Post> Posts { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<Channel> Channels { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<PostView> PostViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ChannelConfiguration());
             modelBuilder.ApplyConfiguration(new PostConfiguration());
             modelBuilder.ApplyConfiguration(new ReactionConfiguration());
+            modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
+            modelBuilder.ApplyConfiguration(new PostViewConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -4,6 +4,7 @@ namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
 {
     public class GetChannelByHandleQuery : IRequest<ChannelVm>
     {
-        public required string Handle { get; set; }
+        public Guid ActorId { get; set; }
+        public required string ChannelHandle { get; set; }
     }
 }

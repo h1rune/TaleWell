@@ -7,5 +7,8 @@
         public Guid PostId { get; set; }
         public ReactionType ReactionType { get; set; }
         public DateTime PutAt { get; set; }
+
+        public Post? Post { get; set; }
+        public Channel? Actor { get; set; }
     }
 }

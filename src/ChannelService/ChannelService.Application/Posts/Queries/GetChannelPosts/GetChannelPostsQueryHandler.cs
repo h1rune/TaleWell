@@ -31,6 +31,7 @@ namespace ChannelService.Application.Posts.Queries.GetChannelPosts
                 Text = post.Text,
                 CreatedAt = post.CreatedAt,
                 EditedAt = post.EditedAt,
+                ViewsNumber = post.PostViews.Count,
                 Reactions = [.. post.Reactions
                     .GroupBy(reaction => reaction.ReactionType)
                     .Select(group => new ReactionSummaryDto

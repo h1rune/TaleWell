@@ -44,9 +44,14 @@ namespace ChannelService.WebApi.Controllers
         }
 
         [HttpGet("{channelHandle}")]
+        [Authorize]
         public async Task<ActionResult<ChannelVm>> GetByHandle(string channelHandle)
         {
-            var query = new GetChannelByHandleQuery { Handle = channelHandle };
+            var query = new GetChannelByHandleQuery 
+            { 
+                ChannelHandle = channelHandle,
+                ActorId = AccountId
+            };
             var channelVm = await Mediator.Send(query);
             return Ok(channelVm);
         }
