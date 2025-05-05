@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChannelService.WebApi.Controllers
 {
-    public class PostController(IMediator mediator, IMapper mapper) : BaseController(mediator)
+    public class PostsController(IMediator mediator, IMapper mapper) : BaseController(mediator)
     {
         private readonly IMapper _mapper = mapper;
 

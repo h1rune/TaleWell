@@ -6,9 +6,9 @@ namespace ChannelService.Application.Subscriptions.Commands.DeleteSubscription
     {
         public DeleteSubscriptionCommandValidator()
         {
-            RuleFor(command => command.SubscriptionId)
+            RuleFor(command => command.FollowedId)
                 .NotEmpty().WithMessage("Subscription ID must not be empty.");
-            RuleFor(command => command.ActorId)
+            RuleFor(command => command.FollowerId)
                 .NotEmpty().WithMessage("Actor ID must not be empty.");
         }
     }

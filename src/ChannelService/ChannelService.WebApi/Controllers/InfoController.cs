@@ -21,7 +21,7 @@ namespace ChannelService.WebApi.Controllers
             var createCommand = _mapper.Map<CreateChannelCommand>(createDto);
             createCommand.ChannelId = AccountId;
             await Mediator.Send(createCommand);
-            return NoContent();
+            return Created();
         }
 
         [HttpPut]

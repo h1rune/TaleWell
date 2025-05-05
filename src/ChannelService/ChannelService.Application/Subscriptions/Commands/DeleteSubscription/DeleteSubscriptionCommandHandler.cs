@@ -14,9 +14,9 @@ namespace ChannelService.Application.Subscriptions.Commands.DeleteSubscription
         public async Task<Unit> Handle(DeleteSubscriptionCommand request, CancellationToken cancellationToken)
         {
             var subscriptionEntity = await _dbContext.Subscriptions
-                .FirstOrDefaultAsync(subscription => subscription.Id == request.SubscriptionId &&
-                    subscription.FollowerId == request.ActorId, cancellationToken)
-                ?? throw new NotFoundException(nameof(Subscription), request.SubscriptionId);
+                .FirstOrDefaultAsync(subscription => subscription.FollowedId == request.FollowedId &&
+                    subscription.FollowerId == request.FollowerId, cancellationToken)
+                ?? throw new NotFoundException(nameof(Subscription), request.FollowedId);
 
             _dbContext.Subscriptions.Remove(subscriptionEntity);
             await _dbContext.SaveChangesAsync(cancellationToken);

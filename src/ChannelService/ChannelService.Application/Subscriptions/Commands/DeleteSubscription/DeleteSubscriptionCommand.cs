@@ -4,7 +4,7 @@ namespace ChannelService.Application.Subscriptions.Commands.DeleteSubscription
 {
     public class DeleteSubscriptionCommand : IRequest<Unit>
     {
-        public Guid SubscriptionId { get; set; }
-        public Guid ActorId { get; set; }
+        public Guid FollowedId { get; set; }
+        public Guid FollowerId { get; set; }
     }
 }

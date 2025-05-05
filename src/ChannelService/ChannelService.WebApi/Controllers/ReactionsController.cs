@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChannelService.WebApi.Controllers
 {
-    public class ReactionController(IMediator mediator, IMapper mapper) : BaseController(mediator)
+    public class ReactionsController(IMediator mediator, IMapper mapper) : BaseController(mediator)
     {
         private readonly IMapper _mapper = mapper;
 
