@@ -71,13 +71,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    options.IncludeXmlComments(xmlPath);
-    options.AddServer(new OpenApiServer
-    {
-        Url = "/art"
-    });
+    options.EnableAnnotations();
+    options.AddServer(new OpenApiServer { Url = "/art" });
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Art Service API",
@@ -127,7 +122,7 @@ app.UseSwaggerUI();
 app.UseCustomExceptionHandler();
 app.UseRouting();
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+app.UseCors("Allow");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

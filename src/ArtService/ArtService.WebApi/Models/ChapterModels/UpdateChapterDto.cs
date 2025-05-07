@@ -1,34 +1,15 @@
 ﻿using ArtService.Application.Chapters.Commands.UpdateChapter;
-using AutoMapper;
+using ArtService.Application.Common.Mappings;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.ChapterModels
 {
-    /// <summary>
-    /// DTO для обновления существующей главы.
-    /// </summary>
-    public class UpdateChapterDto
+    public class UpdateChapterDto : IMapWith<UpdateChapterCommand>
     {
-        /// <summary>
-        /// Идентификатор главы.
-        /// </summary>
-        public Guid ChapterId { get; set; }
-
-        /// <summary>
-        /// Новый порядковый номер главы.
-        /// </summary>
+        [SwaggerSchema("Order of chapter in volume")]
         public int Order { get; set; }
 
-        /// <summary>
-        /// Обновленное название главы (опционально).
-        /// </summary>
+        [SwaggerSchema("Title of chapter")]
         public string? Title { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<UpdateChapterDto, UpdateChapterCommand>()
-                .ForMember(command => command.ChapterId, options => options.MapFrom(dto => dto.ChapterId))
-                .ForMember(command => command.Order, options => options.MapFrom(dto => dto.Order))
-                .ForMember(command => command.Title, options => options.MapFrom(dto => dto.Title));
-        }
     }
 }

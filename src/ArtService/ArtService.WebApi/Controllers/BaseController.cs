@@ -1,27 +1,39 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 
 namespace ArtService.WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Resource not found.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Not valid parameter.")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Server is not responding.")]
     public abstract class BaseController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
         protected IMediator Mediator => _mediator;
 
-        internal Guid UserId
+        protected Guid UserId
         {
             get
             {
                 if (User.Identity?.IsAuthenticated == false)
                 {
-                    return Guid.Empty;
+                    throw new UnauthorizedAccessException();
                 }
 
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return Guid.TryParse(userIdClaim, out var userId) ? userId : Guid.Empty;
+
+                if (Guid.TryParse(userIdClaim, out var userId))
+                {
+                    return userId;
+                }
+
+                throw new UnauthorizedAccessException();
             }
         }
     }

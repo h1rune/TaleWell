@@ -33,6 +33,8 @@ services:
     build: ./src/AuthService
     labels:
       - "traefik.http.routers.auth.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/auth`)"
+      - "traefik.http.middlewares.strip-auth-path.stripprefix.prefixes=/auth"
+      - "traefik.http.routers.auth.middlewares=strip-auth-path@docker"
       - "traefik.http.routers.auth.entrypoints=websecure"
       - "traefik.http.routers.auth.tls.certresolver=myresolver"
 
@@ -70,6 +72,8 @@ services:
     build: ./src/ChannelService
     labels:
       - "traefik.http.routers.channel.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/channel`)"
+      - "traefik.http.middlewares.strip-channel-path.stripprefix.prefixes=/channel"
+      - "traefik.http.routers.channel.middlewares=strip-channel-path@docker"
       - "traefik.http.routers.channel.entrypoints=websecure"
       - "traefik.http.routers.channel.tls.certresolver=myresolver"
     environment:
@@ -84,7 +88,7 @@ services:
       - Jwt__Audience=tw-services
       - Domain=${TRAEFIK_DOMAIN}
     depends_on:
-      - channel-api
+      - auth-api
       - channel-db
       - minio
       - traefik
@@ -106,6 +110,8 @@ services:
     build: ./src/ArtService
     labels:
       - "traefik.http.routers.art.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/art`)"
+      - "traefik.http.middlewares.strip-art-path.stripprefix.prefixes=/art"
+      - "traefik.http.routers.art.middlewares=strip-art-path@docker"
       - "traefik.http.routers.art.entrypoints=websecure"
       - "traefik.http.routers.art.tls.certresolver=myresolver"
     environment:

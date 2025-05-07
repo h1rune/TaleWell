@@ -1,41 +1,21 @@
 ﻿using ArtService.Application.Common.Mappings;
 using ArtService.Application.Volumes.Commands.CreateVolume;
-using AutoMapper;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.VolumeModels
 {
-    /// <summary>
-    /// DTO для создания тома произведения.
-    /// </summary>
     public class CreateVolumeDto : IMapWith<CreateVolumeCommand>
     {
-        /// <summary>
-        /// Идентификатор произведения, к которому относится том.
-        /// </summary>
+        [SwaggerSchema("ID of volume's literary work")]
         public Guid WorkId { get; set; }
 
-        /// <summary>
-        /// Порядковый номер тома.
-        /// </summary>
+        [SwaggerSchema("New order of volume in literary work")]
         public int Order { get; set; }
 
-        /// <summary>
-        /// Название тома (опционально).
-        /// </summary>
-        public string? Title { get; set; }
+        [SwaggerSchema("New title of volume")]
+        public required string Title { get; set; }
 
-        /// <summary>
-        /// Обложка тома (опционально).
-        /// </summary>
+        [SwaggerSchema("New cover of volume")]
         public IFormFile? CoverFile { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<CreateVolumeDto, CreateVolumeCommand>()
-                .ForMember(command => command.WorkId, options => options.MapFrom(dto => dto.WorkId))
-                .ForMember(command => command.Order, options => options.MapFrom(dto => dto.Order))
-                .ForMember(command => command.Title, options => options.MapFrom(dto => dto.Title))
-                .ForMember(command => command.CoverFile, options => options.MapFrom(dto => dto.CoverFile));
-        }
     }
 }

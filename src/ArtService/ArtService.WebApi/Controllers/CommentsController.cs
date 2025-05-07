@@ -8,6 +8,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Controllers
 {
@@ -15,85 +16,69 @@ namespace ArtService.WebApi.Controllers
     {
         private readonly IMapper _mapper = mapper;
 
-        /// <summary>
-        /// Создать новый комментарий к параграфу.
-        /// </summary>
-        /// <param name="createDto">Данные комментария</param>
-        /// <returns>ID созданного комментария</returns>
-        /// <response code="200">Комментарий успешно создан</response>
-        /// <response code="400">Ошибка валидации</response>
-        /// <response code="401">Пользователь не авторизован</response>
         [HttpPost]
-        [Authorize]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateCommentDto createDto)
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "User is unauthorized.")]
+        [SwaggerResponse(StatusCodes.Status201Created, "Comment was successfully added to database.", typeof(Guid))]
+        [EndpointDescription("This operation writes to database information about new comment for paragraph and return the ID.")]
+        public async Task<ActionResult<Guid>> Create(
+            [FromBody, SwaggerRequestBody("Information about new comment")] 
+            CreateCommentDto createDto,
+            CancellationToken cancellationToken)
         {
-            var createCommand = _mapper.Map<CreateCommentCommand>(createDto);
-            createCommand.UserId = UserId;
-            var commentId = await Mediator.Send(createCommand);
-            return Ok(commentId);
+            var command = _mapper.Map<CreateCommentCommand>(createDto);
+            command.UserId = UserId;
+            var commentId = await Mediator.Send(command, cancellationToken);
+            var location = Url.Action(nameof(Get), "Comments", commentId);
+            return Created(location, commentId);
         }
 
-        /// <summary>
-        /// Обновить существующий комментарий.
-        /// </summary>
-        /// <param name="updateDto">Обновлённые данные комментария</param>
-        /// <response code="204">Успешно обновлено</response>
-        /// <response code="400">Неверные данные</response>
-        /// <response code="401">Пользователь не авторизован</response>
-        [HttpPut]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Update([FromBody] UpdateCommentDto updateDto)
+        [HttpPut("{commentId:guid}")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "User is unauthorized.")]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Comment was successfully updated.")]
+        [EndpointDescription("This operation updates information about comment by ID.")]
+        public async Task<IActionResult> Update(
+            [SwaggerParameter("ID of updating comment")]
+            Guid commentId,
+            [FromBody, SwaggerRequestBody("Information about comment")] 
+            UpdateCommentDto updateDto,
+            CancellationToken cancellationToken)
         {
-            var updateCommand = _mapper.Map<UpdateCommentCommand>(updateDto);
-            updateCommand.UserId = UserId;
-            await Mediator.Send(updateCommand);
+            var command = _mapper.Map<UpdateCommentCommand>(updateDto);
+            command.UserId = UserId;
+            command.CommentId = commentId;
+            await Mediator.Send(command, cancellationToken);
             return NoContent();
         }
 
-        /// <summary>
-        /// Удалить комментарий по ID.
-        /// </summary>
-        /// <param name="commentId">ID комментария</param>
-        /// <response code="204">Комментарий удалён</response>
-        /// <response code="401">Пользователь не авторизован</response>
-        [HttpDelete("{commentId}")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Delete(Guid commentId)
+        [HttpDelete("{commentId:guid}")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "User is unauthorized.")]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Comment was successfully deleted.")]
+        [EndpointDescription("This operation deletes information about comment by ID.")]
+        public async Task<IActionResult> Delete(
+            [SwaggerParameter("ID of comment to delete")]
+            Guid commentId,
+            CancellationToken cancellationToken)
         {
-            var deleteCommand = new DeleteCommentCommand
+            var command = new DeleteCommentCommand
             {
                 UserId = UserId,
                 CommentId = commentId
             };
-            await Mediator.Send(deleteCommand);
+            await Mediator.Send(command, cancellationToken);
             return NoContent();
         }
 
-        /// <summary>
-        /// Получить комментарий по ID.
-        /// </summary>
-        /// <param name="commentId">ID комментария</param>
-        /// <returns>Комментарий</returns>
-        /// <response code="200">Комментарий найден</response>
-        /// <response code="404">Комментарий не найден</response>
-        [HttpGet("{commentId}")]
-        [ProducesResponseType(typeof(CommentVm), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CommentVm>> Get(Guid commentId)
+        [HttpGet("{commentId:guid}")]
+        [AllowAnonymous]
+        [SwaggerResponse(StatusCodes.Status200OK, "Comment was successfully received.", typeof(CommentVm))]
+        [EndpointDescription("This operation receives information about comment by ID.")]
+        public async Task<ActionResult<CommentVm>> Get(
+            [SwaggerParameter("ID of comment to receive")]
+            Guid commentId,
+            CancellationToken cancellationToken)
         {
-            var query = new GetCommentQuery
-            {
-                CommentId = commentId
-            };
-            var commentVm = await Mediator.Send(query);
+            var query = new GetCommentQuery { CommentId = commentId };
+            var commentVm = await Mediator.Send(query, cancellationToken);
             return Ok(commentVm);
         }
     }

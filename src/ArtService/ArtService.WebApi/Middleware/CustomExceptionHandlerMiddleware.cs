@@ -1,15 +1,22 @@
 ﻿using ArtService.Application.Common.Exceptions;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
 namespace ArtService.WebApi.Middleware
 {
-    public class CustomExceptionHandlerMiddleware(RequestDelegate next)
+    public class CustomExceptionHandlerMiddleware(RequestDelegate next, ILogger<CustomExceptionHandlerMiddleware> logger)
     {
         private readonly RequestDelegate _next = next;
+        private readonly ILogger<CustomExceptionHandlerMiddleware> _logger = logger;
 
-        public async Task Invoke(HttpContext context)
+        private readonly JsonSerializerOptions _serializerOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        public async Task Invoke(HttpContext context, CancellationToken cancellationToken)
         {
             try
             {
@@ -17,33 +24,51 @@ namespace ArtService.WebApi.Middleware
             }
             catch (Exception exception)
             {
-                await HandleExceptionAsync(context, exception);
+                await HandleExceptionAsync(context, exception, cancellationToken);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
         {
-            var code = HttpStatusCode.InternalServerError;
-            var result = string.Empty;
+            var problem = new ProblemDetails();
+            HttpStatusCode code;
+
             switch (exception)
             {
                 case ValidationException validationException:
                     code = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(validationException.Errors);
+                    problem.Title = "Validation error";
+                    problem.Extensions["errors"] = validationException.Errors;
                     break;
+
                 case NotFoundException:
                     code = HttpStatusCode.NotFound;
+                    problem.Title = "Resource not found";
+                    break;
+
+                case UnauthorizedAccessException:
+                    code = HttpStatusCode.Unauthorized;
+                    problem.Title = "Unauthorized";
+                    break;
+
+                default:
+                    code = HttpStatusCode.InternalServerError;
+                    problem.Title = "Internal server error";
+                    problem.Detail = "An unexpected error occurred.";
+                    _logger.LogError(exception, "Unhandled exception");
                     break;
             }
-            context.Response.ContentType = "application/json";
+
+            problem.Status = (int)code;
+            problem.Type = $"https://httpstatuses.com/{(int)code}";
+            problem.Extensions["traceId"] = context.TraceIdentifier;
+
+            context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = (int)code;
 
-            if (result == string.Empty)
-            {
-                result = JsonSerializer.Serialize(new { errpr = exception.Message });
-            }
+            var json = JsonSerializer.Serialize(problem, _serializerOptions);
 
-            return context.Response.WriteAsync(result);
+            return context.Response.WriteAsync(json, cancellationToken);
         }
     }
 }
