@@ -13,16 +13,17 @@ namespace ArtService.Application.Reactions.Commands.SwitchReaction
         public async Task<Unit> Handle(SwitchReactionCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Reactions
-                .FirstOrDefaultAsync(reaction => reaction.ParagraphId == request.ParagraphId &&
-                reaction.UserId == request.UserId &&
-                reaction.Type == request.Type, cancellationToken);
+                .FirstOrDefaultAsync(reaction => reaction.ParagraphId == request.ParagraphId 
+                    && reaction.OwnerId == request.UserId 
+                    && reaction.Type == request.Type, 
+                    cancellationToken);
 
             if (entity == null)
             {
                 var reaction = new Reaction
                 {
                     Id = Guid.NewGuid(),
-                    UserId = request.UserId,
+                    OwnerId = request.UserId,
                     ParagraphId = request.ParagraphId,
                     Type = request.Type,
                     PutAt = DateTime.UtcNow

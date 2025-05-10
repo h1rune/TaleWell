@@ -17,6 +17,11 @@ namespace ArtService.Persistence.EntityTypeConfigurations
                 .WithMany(paragraph => paragraph.Comments)
                 .HasForeignKey(comment => comment.ParagraphId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(comment => comment.SpoilerChapter)
+                .WithMany()
+                .HasForeignKey(comment => comment.SpoilerChapterId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

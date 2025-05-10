@@ -6,8 +6,8 @@ namespace ArtService.Application.Comments.Commands.UpdateComment
     {
         public Guid CommentId { get; set; }
         public Guid UserId { get; set; }
-        public string Text { get; set; } = null!;
+        public required string Text { get; set; }
         public bool IsSpoiler { get; set; }
-        public int? SpoilerChapterNumber { get; set; }
+        public Guid? SpoilerChapterId { get; set; }
     }
 }

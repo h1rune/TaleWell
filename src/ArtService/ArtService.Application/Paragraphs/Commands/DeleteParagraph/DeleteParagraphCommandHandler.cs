@@ -15,15 +15,9 @@ namespace ArtService.Application.Paragraphs.Commands.DeleteParagraph
         public async Task<Unit> Handle(DeleteParagraphCommand request, CancellationToken cancellationToken)
         {
             var paragraph = await _dbContext.Paragraphs
-                .Include(paragraph => paragraph.RelatedChapter.RelatedVolume.RelatedWork)
-                .FirstOrDefaultAsync(paragraph => paragraph.Id == request.ParagraphId, cancellationToken)
+                .FirstOrDefaultAsync(paragraph => paragraph.Id == request.ParagraphId
+                    && paragraph.OwnerId == request.UserId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Paragraph), request.ParagraphId);
-
-            var work = paragraph.RelatedChapter.RelatedVolume.RelatedWork;
-            if (work.AuthorId != request.UserId)
-            {
-                throw new NotFoundException(nameof(Work), work.Id);
-            }
             
             await _storageService.DeleteFileAsync(paragraph.S3Key, cancellationToken);
             _dbContext.Paragraphs.Remove(paragraph);

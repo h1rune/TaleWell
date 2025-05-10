@@ -6,8 +6,8 @@ namespace ArtService.Application.Reviews.Queries.GetReview
     {
         public GetReviewQueryValidator()
         {
-            RuleFor(query => query.ReviewId).NotEmpty()
-                .WithMessage("ReviewId must not be empty.");
+            RuleFor(query => query.ReviewId)
+                .NotEmpty();
         }
     }
 }

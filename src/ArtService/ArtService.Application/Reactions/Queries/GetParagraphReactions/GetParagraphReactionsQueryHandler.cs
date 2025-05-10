@@ -18,7 +18,7 @@ namespace ArtService.Application.Reactions.Queries.GetParagraphReactions
                 {
                     Type = group.Key,
                     Count = group.Count(),
-                    IsUserPut = group.Any(reaction => reaction.UserId == request.UserId)
+                    IsUserPut = group.Any(reaction => reaction.OwnerId == request.UserId)
                 })
                 .ToListAsync(cancellationToken);
 

@@ -18,7 +18,7 @@ namespace ArtService.Application.Comments.Queries.GetParagraphComments
                 .ForMember(commentDto => commentDto.Id, options => options.MapFrom(comment => comment.Id))
                 .ForMember(commentDto => commentDto.Text, options => options.MapFrom(comment => comment.Text))
                 .ForMember(commentDto => commentDto.IsSpoiler, options => options.MapFrom(comment => comment.IsSpoiler))
-                .ForMember(commentDto => commentDto.SpoilerChapterNumber, options => options.MapFrom(comment => comment.SpoilerChapterNumber))
+                .ForMember(commentDto => commentDto.SpoilerChapterNumber, options => options.MapFrom(comment => comment.SpoilerChapterId))
                 .ForMember(commentDto => commentDto.CreatedAt, options => options.MapFrom(comment => comment.CreatedAt));
         }
     }

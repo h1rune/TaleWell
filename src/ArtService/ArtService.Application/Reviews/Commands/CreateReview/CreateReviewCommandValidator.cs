@@ -1,5 +1,6 @@
 ﻿using ArtService.Application.Common.Validators;
 using ArtService.Application.Interfaces;
+using ArtService.Domain;
 using FluentValidation;
 
 namespace ArtService.Application.Reviews.Commands.CreateReview
@@ -8,14 +9,15 @@ namespace ArtService.Application.Reviews.Commands.CreateReview
     {
         public CreateReviewCommandValidator(IArtServiceDbContext dbContext)
         {
-            Include(new WorkExistsValidator<CreateReviewCommand>(dbContext));
-            RuleFor(command => command.UserId).NotEmpty()
-                .WithMessage("UserId must not be empty.");
-            RuleFor(command => command.Mark).NotEmpty()
-                .WithMessage("Mark must not be empty.");
+            RuleFor(command => command.UserId)
+                .NotEmpty();
+            RuleFor(command => command.WorkId)
+                .MustExistInDb<CreateReviewCommand, Work>(dbContext);
+            RuleFor(command => command.Mark)
+                .IsInEnum();
             RuleFor(command => command.Text)
-                .NotEmpty().WithMessage("Review's text must not be empty.")
-                .MaximumLength(3000).WithMessage("Review's text has maximum 3000 characters.");
+                .NotEmpty()
+                .MaximumLength(3000);
         }
     }
 }

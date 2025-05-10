@@ -19,8 +19,4 @@
     <ProjectReference Include="..\ArtService.Domain\ArtService.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Paragraphs\Queries\" />
-  </ItemGroup>
-
 </Project>

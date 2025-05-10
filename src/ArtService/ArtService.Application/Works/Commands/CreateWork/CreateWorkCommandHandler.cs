@@ -14,7 +14,7 @@ namespace ArtService.Application.Works.Commands.CreateWork
             var work = new Work
             {
                 Id = Guid.NewGuid(),
-                AuthorId = request.UserId,
+                OwnerId = request.UserId,
                 Title = request.Title,
                 Description = request.Description,
                 IsFanfic = request.IsFanfic,

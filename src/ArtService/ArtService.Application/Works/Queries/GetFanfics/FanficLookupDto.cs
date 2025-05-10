@@ -14,7 +14,7 @@ namespace ArtService.Application.Works.Queries.GetFanfics
         {
             profile.CreateMap<Work, FanficLookupDto>()
                 .ForMember(fanficDto => fanficDto.Id, options => options.MapFrom(work => work.Id))
-                .ForMember(fanficDto => fanficDto.AuthorId, options => options.MapFrom(work => work.AuthorId))
+                .ForMember(fanficDto => fanficDto.AuthorId, options => options.MapFrom(work => work.OwnerId))
                 .ForMember(fanficDto => fanficDto.Title, options => options.MapFrom(work => work.Title));
         }
     }

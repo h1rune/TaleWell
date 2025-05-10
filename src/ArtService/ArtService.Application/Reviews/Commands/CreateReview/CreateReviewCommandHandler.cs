@@ -14,7 +14,7 @@ namespace ArtService.Application.Reviews.Commands.CreateReview
             var review = new Review
             {
                 Id = Guid.NewGuid(),
-                UserId = request.UserId,
+                OwnerId = request.UserId,
                 WorkId = request.WorkId,
                 Mark = request.Mark,
                 Text = request.Text,

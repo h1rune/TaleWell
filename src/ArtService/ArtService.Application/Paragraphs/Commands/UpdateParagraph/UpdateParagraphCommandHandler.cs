@@ -15,18 +15,14 @@ namespace ArtService.Application.Paragraphs.Commands.UpdateParagraph
         public async Task<Unit> Handle(UpdateParagraphCommand request, CancellationToken cancellationToken)
         {
             var paragraph = await _dbContext.Paragraphs
-                .Include(paragraph => paragraph.RelatedChapter.RelatedVolume.RelatedWork)
-                .FirstOrDefaultAsync(paragraph => paragraph.Id == request.ParagraphId, cancellationToken)
+                .Include(paragraph => paragraph.RelatedChapter.RelatedVolume)
+                .FirstOrDefaultAsync(paragraph => paragraph.Id == request.ParagraphId
+                    && paragraph.OwnerId == request.UserId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Paragraph), request.ParagraphId);
 
-            var work = paragraph.RelatedChapter.RelatedVolume.RelatedWork;
-            if (work.AuthorId != request.UserId)
-            {
-                throw new NotFoundException(nameof(Work), work.Id);
-            }
+            var volume = paragraph.RelatedChapter.RelatedVolume;
 
-            var chapter = paragraph.RelatedChapter;
-            var path = $"works/{work.Id}/volumes/{chapter.RelatedVolume.Id}/chapters/{chapter.Id}/paragraphs/{paragraph.Id}.txt";
+            var path = $"works/{volume.WorkId}/volumes/{volume.Id}/chapters/{paragraph.ChapterId}/paragraphs/{paragraph.Id}.txt";
             paragraph.Order = request.Order;
             paragraph.S3Key = await _storageService.UploadFileAsync(request.Text, path, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);

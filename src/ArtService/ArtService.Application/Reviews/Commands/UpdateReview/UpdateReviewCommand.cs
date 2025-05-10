@@ -1,4 +1,4 @@
-﻿using ArtService.Domain;
+﻿using ArtService.Domain.Common;
 using MediatR;
 
 namespace ArtService.Application.Reviews.Commands.UpdateReview
@@ -9,6 +9,6 @@ namespace ArtService.Application.Reviews.Commands.UpdateReview
         public Guid UserId { get; set; }
 
         public ReactionType Mark { get; set; }
-        public string Text { get; set; } = null!;
+        public required string Text { get; set; }
     }
 }

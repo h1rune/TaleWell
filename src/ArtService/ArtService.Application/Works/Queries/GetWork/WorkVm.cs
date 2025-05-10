@@ -16,7 +16,7 @@ namespace ArtService.Application.Works.Queries.GetWork
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Work, WorkVm>()
-                .ForMember(workDto => workDto.AuthorId, options => options.MapFrom(work => work.AuthorId))
+                .ForMember(workDto => workDto.AuthorId, options => options.MapFrom(work => work.OwnerId))
                 .ForMember(workDto => workDto.Title, options => options.MapFrom(work => work.Title))
                 .ForMember(workDto => workDto.Description, options => options.MapFrom(work => work.Description))
                 .ForMember(workDto => workDto.IsFanfic, options => options.MapFrom(work => work.IsFanfic))

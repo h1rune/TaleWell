@@ -13,6 +13,8 @@ namespace ArtService.Application.Interfaces
         DbSet<Comment> Comments { get; set; }
         DbSet<Reaction> Reactions { get; set; }
 
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

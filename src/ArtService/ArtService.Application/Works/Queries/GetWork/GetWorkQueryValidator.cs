@@ -6,8 +6,8 @@ namespace ArtService.Application.Works.Queries.GetWork
     {
         public GetWorkQueryValidator()
         {
-            RuleFor(query => query.WorkId).NotEmpty()
-                .WithMessage("Work id must not be empty.");
+            RuleFor(query => query.WorkId)
+                .NotEmpty();
         }
     }
 }

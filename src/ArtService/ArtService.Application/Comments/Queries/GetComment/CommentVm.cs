@@ -19,7 +19,7 @@ namespace ArtService.Application.Comments.Queries.GetParagraph
                 .ForMember(commentDto => commentDto.ParagraphId, options => options.MapFrom(comment => comment.ParagraphId))
                 .ForMember(commentDto => commentDto.Text, options => options.MapFrom(comment => comment.Text))
                 .ForMember(commentDto => commentDto.IsSpoiler, options => options.MapFrom(comment => comment.IsSpoiler))
-                .ForMember(commentDto => commentDto.SpoilerChapterNumber, options => options.MapFrom(comment => comment.SpoilerChapterNumber))
+                .ForMember(commentDto => commentDto.SpoilerChapterNumber, options => options.MapFrom(comment => comment.SpoilerChapterId))
                 .ForMember(commentDto => commentDto.CreatedAt, options => options.MapFrom(comment => comment.CreatedAt));
         }
     }

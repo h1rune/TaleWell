@@ -1,4 +1,4 @@
-﻿using ArtService.Domain;
+﻿using ArtService.Domain.Common;
 
 namespace ArtService.Application.Reactions.Queries.GetParagraphReactions
 {

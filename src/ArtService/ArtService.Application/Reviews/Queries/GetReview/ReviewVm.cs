@@ -1,5 +1,6 @@
 ﻿using ArtService.Application.Common.Mappings;
 using ArtService.Domain;
+using ArtService.Domain.Common;
 using AutoMapper;
 
 namespace ArtService.Application.Reviews.Queries.GetReview
@@ -16,7 +17,7 @@ namespace ArtService.Application.Reviews.Queries.GetReview
         {
             profile.CreateMap<Review, ReviewVm>()
                 .ForMember(reviewDto => reviewDto.WorkId, options => options.MapFrom(review => review.WorkId))
-                .ForMember(reviewDto => reviewDto.UserId, options => options.MapFrom(review => review.UserId))
+                .ForMember(reviewDto => reviewDto.UserId, options => options.MapFrom(review => review.OwnerId))
                 .ForMember(reviewDto => reviewDto.Mark, options => options.MapFrom(review => review.Mark))
                 .ForMember(reviewDto => reviewDto.Text, options => options.MapFrom(review => review.Text))
                 .ForMember(reviewDto => reviewDto.CreatedAt, options => options.MapFrom(review => review.CreatedAt));

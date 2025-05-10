@@ -12,7 +12,7 @@ namespace ArtService.WebApi.Models.CommentModels
         [SwaggerSchema("Notifying about spoiler flag")]
         public bool IsSpoiler { get; set; }
 
-        [SwaggerSchema("Number of chapter, in which spoiler appears for the first time")]
-        public int? SpoilerChapterNumber { get; set; }
+        [SwaggerSchema("ID of chapter, in which spoiler appears for the first time")]
+        public Guid? SpoilerChapterId { get; set; }
     }
 }

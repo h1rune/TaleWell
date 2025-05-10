@@ -15,7 +15,7 @@ namespace ArtService.Application.Works.Commands.UpdateWork
         {
             var work = await _dbContext.Works
                 .FirstOrDefaultAsync(work => work.Id == request.WorkId
-                    && work.AuthorId == request.UserId, cancellationToken)
+                    && work.OwnerId == request.UserId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Work), request.WorkId);
 
             work.Title = request.Title;

@@ -15,14 +15,9 @@ namespace ArtService.Application.Volumes.Commands.UpdateVolume
         public async Task<Unit> Handle(UpdateVolumeCommand request, CancellationToken cancellationToken)
         {
             var volume = await _dbContext.Volumes
-                .Include(volume => volume.RelatedWork)
-                .FirstOrDefaultAsync(volume => volume.Id == request.VolumeId, cancellationToken)
+                .FirstOrDefaultAsync(volume => volume.Id == request.VolumeId
+                    && volume.OwnerId == request.UserId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Volume), request.VolumeId);
-
-            if (volume.RelatedWork.AuthorId != request.UserId)
-            {
-                throw new NotFoundException(nameof(Work), volume.WorkId);
-            } 
 
             volume.Order = request.Order;
             volume.Title = request.Title;

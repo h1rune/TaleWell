@@ -1,4 +1,4 @@
-﻿using ArtService.Domain;
+﻿using ArtService.Domain.Common;
 using MediatR;
 
 namespace ArtService.Application.Reactions.Commands.SwitchReaction

@@ -1,4 +1,4 @@
-﻿namespace ArtService.Domain
+﻿namespace ArtService.Domain.Common
 {
     public enum ReactionType
     {

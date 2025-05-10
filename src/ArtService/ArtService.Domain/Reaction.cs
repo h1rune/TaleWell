@@ -1,9 +1,11 @@
-﻿namespace ArtService.Domain
+﻿using ArtService.Domain.Common;
+
+namespace ArtService.Domain
 {
-    public class Reaction
+    public class Reaction : IDomainEntity
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public Guid OwnerId { get; set; }
         public Guid ParagraphId { get; set; }
         public Paragraph RelatedParagraph { get; set; } = null!;
 

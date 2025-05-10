@@ -1,6 +1,6 @@
 ﻿using ArtService.Application.Common.Mappings;
 using ArtService.Application.Reactions.Commands.SwitchReaction;
-using ArtService.Domain;
+using ArtService.Domain.Common;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.ReactionModels

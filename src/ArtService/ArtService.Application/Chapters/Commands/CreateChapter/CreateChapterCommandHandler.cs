@@ -1,8 +1,6 @@
-﻿using ArtService.Application.Common.Exceptions;
-using ArtService.Application.Interfaces;
+﻿using ArtService.Application.Interfaces;
 using ArtService.Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace ArtService.Application.Chapters.Commands.CreateChapter
 {
@@ -13,16 +11,6 @@ namespace ArtService.Application.Chapters.Commands.CreateChapter
 
         public async Task<Guid> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
         {
-            var volume = await _dbContext.Volumes
-                .Include(volume => volume.RelatedWork)
-                .FirstOrDefaultAsync(volume => volume.Id == request.VolumeId, cancellationToken)
-                ?? throw new NotFoundException(nameof(Volume), request.VolumeId);
-
-            if (volume.RelatedWork == null || volume.RelatedWork.AuthorId != request.UserId)
-            {
-                throw new NotFoundException(nameof(Work), volume.WorkId);
-            }
-
             var chapter = new Chapter
             {
                 Id = Guid.NewGuid(),

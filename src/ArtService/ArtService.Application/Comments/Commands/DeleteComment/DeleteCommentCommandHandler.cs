@@ -17,7 +17,7 @@ namespace ArtService.Application.Comments.Commands.DeleteComment
                 .FirstOrDefaultAsync(comment => comment.Id == request.CommentId,
                 cancellationToken);
 
-            if (entity == null || entity.UserId != request.UserId)
+            if (entity == null || entity.OwnerId != request.UserId)
             {
                 throw new NotFoundException(nameof(Comment), request.CommentId);
             }

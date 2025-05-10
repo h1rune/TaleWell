@@ -14,11 +14,11 @@ namespace ArtService.Application.Comments.Commands.CreateComment
             var comment = new Comment
             {
                 Id = Guid.NewGuid(),
-                UserId = request.UserId,
+                OwnerId = request.UserId,
                 ParagraphId = request.ParagraphId,
                 Text = request.Text,
                 IsSpoiler = request.IsSpoiler,
-                SpoilerChapterNumber = request.SpoilerChapterNumber,
+                SpoilerChapterId = request.IsSpoiler ? request.SpoilerChapterId : null,
                 CreatedAt = DateTime.UtcNow
             };
 

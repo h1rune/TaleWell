@@ -7,6 +7,6 @@ namespace ArtService.Application.Paragraphs.Commands.UpdateParagraph
         public Guid UserId { get; set; }
         public Guid ParagraphId { get; set; }
         public int Order { get; set; }
-        public string Text { get; set; } = null!;
+        public required string Text { get; set; }
     }
 }
