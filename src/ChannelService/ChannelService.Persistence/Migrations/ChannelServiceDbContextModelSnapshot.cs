@@ -36,6 +36,9 @@ namespace ChannelService.Persistence.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
+                    b.Property<int>("TariffPlan")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -158,6 +161,28 @@ namespace ChannelService.Persistence.Migrations
                     b.ToTable("Subscriptions");
                 });
 
+            modelBuilder.Entity("ChannelService.Domain.TariffPayment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChannelId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EndsAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId");
+
+                    b.ToTable("TariffPayments");
+                });
+
             modelBuilder.Entity("ChannelService.Domain.Post", b =>
                 {
                     b.HasOne("ChannelService.Domain.Channel", "Channel")
@@ -232,6 +257,17 @@ namespace ChannelService.Persistence.Migrations
                     b.Navigation("Follower");
 
                     b.Navigation("LastSeenPost");
+                });
+
+            modelBuilder.Entity("ChannelService.Domain.TariffPayment", b =>
+                {
+                    b.HasOne("ChannelService.Domain.Channel", "Channel")
+                        .WithMany()
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Channel");
                 });
 
             modelBuilder.Entity("ChannelService.Domain.Channel", b =>

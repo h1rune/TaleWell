@@ -21,8 +21,8 @@ namespace ChannelService.Application.Subscriptions.Queries.GetSubscriptions
                     {
                         Text = subscription.LastSeenPost!.Text,
                         CreatedAt = subscription.LastSeenPost.CreatedAt
-                    }
-                    
+                    },
+                    TariffPlan = subscription.Followed!.TariffPlan
                 })
                 .ToListAsync(cancellationToken);
 

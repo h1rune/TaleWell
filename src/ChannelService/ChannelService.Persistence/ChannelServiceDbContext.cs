@@ -13,6 +13,7 @@ namespace ChannelService.Persistence
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<PostView> PostViews { get; set; }
+        public DbSet<TariffPayment> TariffPayments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +22,7 @@ namespace ChannelService.Persistence
             modelBuilder.ApplyConfiguration(new ReactionConfiguration());
             modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
             modelBuilder.ApplyConfiguration(new PostViewConfiguration());
+            modelBuilder.ApplyConfiguration(new TariffPaymentConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

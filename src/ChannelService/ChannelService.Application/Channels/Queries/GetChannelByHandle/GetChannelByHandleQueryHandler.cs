@@ -21,7 +21,8 @@ namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
                     Handle = channel.Handle,
                     Description = channel.Description,
                     FollowersNumber = channel.Followers.Count(),
-                    IsActorSubscribed = channel.Followers.Any(subscription => subscription.FollowerId == request.ActorId)
+                    IsActorSubscribed = channel.Followers.Any(subscription => subscription.FollowerId == request.ActorId),
+                    TariffPlan = channel.TariffPlan,
                 })
                 .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new NotFoundException(nameof(Channel), request.ChannelHandle);

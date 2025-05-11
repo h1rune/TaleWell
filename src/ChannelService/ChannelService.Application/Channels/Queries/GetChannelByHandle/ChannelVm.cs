@@ -1,4 +1,6 @@
-﻿namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
+﻿using ChannelService.Domain;
+
+namespace ChannelService.Application.Channels.Queries.GetChannelByHandle
 {
     public class ChannelVm
     {
@@ -7,5 +9,6 @@
         public string? Description { get; set; }
         public int FollowersNumber { get; set; }
         public bool IsActorSubscribed { get; set; }
+        public TariffPlan TariffPlan { get; set; }
     }
 }

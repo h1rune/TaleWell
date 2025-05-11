@@ -18,7 +18,8 @@ namespace ChannelService.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Handle = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true)
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    TariffPlan = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,6 +41,26 @@ namespace ChannelService.Persistence.Migrations
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Posts_Channels_ChannelId",
+                        column: x => x.ChannelId,
+                        principalTable: "Channels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TariffPayments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChannelId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndsAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TariffPayments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TariffPayments_Channels_ChannelId",
                         column: x => x.ChannelId,
                         principalTable: "Channels",
                         principalColumn: "Id",
@@ -179,6 +200,11 @@ namespace ChannelService.Persistence.Migrations
                 name: "IX_Subscriptions_LastSeenPostId",
                 table: "Subscriptions",
                 column: "LastSeenPostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TariffPayments_ChannelId",
+                table: "TariffPayments",
+                column: "ChannelId");
         }
 
         /// <inheritdoc />
@@ -192,6 +218,9 @@ namespace ChannelService.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subscriptions");
+
+            migrationBuilder.DropTable(
+                name: "TariffPayments");
 
             migrationBuilder.DropTable(
                 name: "Posts");

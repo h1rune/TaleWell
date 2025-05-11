@@ -10,6 +10,7 @@ namespace ChannelService.Application.Interfaces
         DbSet<Channel> Channels { get; set; }
         DbSet<Subscription> Subscriptions { get; set; }
         DbSet<PostView> PostViews { get; set; }
+        DbSet<TariffPayment> TariffPayments { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

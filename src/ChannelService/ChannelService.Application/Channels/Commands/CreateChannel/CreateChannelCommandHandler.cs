@@ -17,6 +17,7 @@ namespace ChannelService.Application.Channels.Commands.CreateChannel
                 Title = request.Title,
                 Handle = request.Handle,
                 Description = request.Description,
+                TariffPlan = TariffPlan.Free
             };
 
             await _dbContext.Channels.AddAsync(channel, cancellationToken);
