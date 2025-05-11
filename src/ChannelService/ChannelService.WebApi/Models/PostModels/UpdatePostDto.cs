@@ -1,4 +1,5 @@
-﻿using ChannelService.Application.Common.Mappings;
+﻿using AutoMapper;
+using ChannelService.Application.Common.Mappings;
 using ChannelService.Application.Posts.Commands.UpdatePost;
 
 namespace ChannelService.WebApi.Models.PostModels
@@ -7,5 +8,10 @@ namespace ChannelService.WebApi.Models.PostModels
     {
         public Guid PostId { get; set; }
         public required string Text { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<UpdatePostDto, UpdatePostCommand>();
+        }
     }
 }

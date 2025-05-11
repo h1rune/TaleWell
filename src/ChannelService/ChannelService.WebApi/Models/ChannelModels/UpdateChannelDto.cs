@@ -1,4 +1,5 @@
-﻿using ChannelService.Application.Channels.Commands.UpdateChannel;
+﻿using AutoMapper;
+using ChannelService.Application.Channels.Commands.UpdateChannel;
 using ChannelService.Application.Common.Mappings;
 
 namespace ChannelService.WebApi.Models.ChannelModels
@@ -8,5 +9,10 @@ namespace ChannelService.WebApi.Models.ChannelModels
         public required string Title { get; set; }
         public required string Handle { get; set; }
         public string? Description { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<UpdateChannelDto, UpdateChannelCommand>();
+        }
     }
 }
