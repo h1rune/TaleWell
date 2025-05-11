@@ -1,31 +1,21 @@
 ﻿using AuthService.Application.Common.Mappings;
 using AuthService.Application.RegisterAccount;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AuthService.WebApi.Models.Account
 {
-    /// <summary>
-    /// Данные для регистрации нового пользователя.
-    /// </summary>
     public class RegisterDto : IMapWith<RegisterAccountCommand>
     {
-        /// <summary>
-        /// Email пользователя. Используется как логин.
-        /// </summary>
-        /// <example>user@example.com</example>
+        [SwaggerSchema("Account Email")]
         public required string Email { get; set; }
 
-        /// <summary>
-        /// Пароль. Должен соответствовать требованиям безопасности.
-        /// </summary>
-        /// <example>StrongP@ssw0rd15</example>
+        [SwaggerSchema("Account password")]
         public required string Password { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<RegisterDto, RegisterAccountCommand>()
-                .ForMember(command => command.Email, options => options.MapFrom(dto => dto.Email))
-                .ForMember(command => command.Password, options => options.MapFrom(dto => dto.Password));
+            profile.CreateMap<RegisterDto, RegisterAccountCommand>();
         }
     }
 }

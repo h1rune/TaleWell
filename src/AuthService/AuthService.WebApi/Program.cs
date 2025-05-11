@@ -5,6 +5,7 @@ using System.Reflection;
 using AuthService.Persistence;
 using AuthService.Infrastructure;
 using Microsoft.OpenApi.Models;
+using AuthService.WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
@@ -36,9 +37,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    options.IncludeXmlComments(xmlPath);
+    options.EnableAnnotations();
     options.AddServer(new OpenApiServer
     {
         Url = "/auth"
@@ -90,11 +89,10 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();            
 app.UseSwaggerUI();
-
+app.UseCustomExceptionHandler();
 app.UseRouting();
 app.UseCors("Allow");
-
 app.UseHttpsRedirection();
-app.MapControllers();
 
+app.MapControllers();
 app.Run();

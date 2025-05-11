@@ -1,4 +1,5 @@
-﻿using AuthService.Application.Interfaces;
+﻿using AuthService.Application.Common.Exceptions;
+using AuthService.Application.Interfaces;
 using AuthService.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,9 +15,10 @@ namespace AuthService.Application.Login
 
         public async Task<TokensDto> Handle(LoginCommand command, CancellationToken cancellationToken)
         {
-            var account = await _userManager.FindByEmailAsync(command.Email);
-            if (account == null || !await _userManager.IsEmailConfirmedAsync(account))
-                throw new UnauthorizedAccessException("Invalid credentials or unconfirmed email.");
+            var account = await _userManager.FindByEmailAsync(command.Email)
+                ?? throw new NotFoundException(nameof(Account), command.Email);
+            if (!await _userManager.IsEmailConfirmedAsync(account))
+                throw new UnauthorizedAccessException("Unconfirmed email.");
 
             var result = await _signInManager.CheckPasswordSignInAsync(account, command.Password, false);
 

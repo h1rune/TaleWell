@@ -1,5 +1,6 @@
 ﻿using ArtService.Application.Common.Mappings;
 using ArtService.Application.Works.Commands.UpdateWork;
+using AutoMapper;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.WorkModels
@@ -17,5 +18,10 @@ namespace ArtService.WebApi.Models.WorkModels
 
         [SwaggerSchema("Original work's ID, sets only work is a fanfiction.")]
         public Guid? OriginalWorkId { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<UpdateWorkDto, UpdateWorkCommand>();
+        }
     }
 }

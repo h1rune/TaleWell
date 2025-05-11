@@ -1,4 +1,5 @@
-﻿using AuthService.Domain;
+﻿using AuthService.Application.Common.Exceptions;
+using AuthService.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,8 +12,8 @@ namespace AuthService.Application.ConfirmEmail
 
         public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(request.AccountId) 
-                ?? throw new ArgumentException("Invalid user.");
+            var user = await _userManager.FindByIdAsync(request.AccountId)
+                ?? throw new NotFoundException(nameof(Account), request.AccountId);
 
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
             if (!result.Succeeded)

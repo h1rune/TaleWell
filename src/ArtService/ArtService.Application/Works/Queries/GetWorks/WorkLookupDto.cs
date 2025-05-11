@@ -7,8 +7,8 @@ namespace ArtService.Application.Works.Queries.GetWorks
     public class WorkLookupDto : IMapWith<Work>
     {
         public Guid Id { get; set; }
-        public Guid AuthorId { get; set; }
-        public string Title { get; set; } = null!;
+        public Guid OwnerId { get; set; }
+        public required string Title { get; set; }
         public string? Description { get; set; }
         public bool IsFanfic { get; set; }
         public Guid? OriginalWorkId { get; set; }
@@ -16,14 +16,7 @@ namespace ArtService.Application.Works.Queries.GetWorks
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Work, WorkLookupDto>()
-                .ForMember(fanficDto => fanficDto.Id, options => options.MapFrom(work => work.Id))
-                .ForMember(fanficDto => fanficDto.AuthorId, options => options.MapFrom(work => work.OwnerId))
-                .ForMember(fanficDto => fanficDto.Title, options => options.MapFrom(work => work.Title))
-                .ForMember(fanficDto => fanficDto.Description, options => options.MapFrom(work => work.Description))
-                .ForMember(fanficDto => fanficDto.IsFanfic, options => options.MapFrom(work => work.IsFanfic))
-                .ForMember(fanficDto => fanficDto.OriginalWorkId, options => options.MapFrom(work => work.OriginalWorkId))
-                .ForMember(fanficDto => fanficDto.CreatedAt, options => options.MapFrom(work => work.CreatedAt));
+            profile.CreateMap<Work, WorkLookupDto>();
         }
     }
 }

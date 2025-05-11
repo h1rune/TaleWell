@@ -1,5 +1,6 @@
 ﻿using ArtService.Application.Comments.Commands.UpdateComment;
 using ArtService.Application.Common.Mappings;
+using AutoMapper;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.CommentModels
@@ -14,5 +15,10 @@ namespace ArtService.WebApi.Models.CommentModels
 
         [SwaggerSchema("ID of chapter, in which spoiler appears for the first time")]
         public Guid? SpoilerChapterId { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CreateCommentDto, UpdateCommentCommand>();
+        }
     }
 }

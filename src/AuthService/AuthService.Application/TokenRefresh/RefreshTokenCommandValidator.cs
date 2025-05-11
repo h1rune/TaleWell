@@ -7,7 +7,7 @@ namespace AuthService.Application.TokenRefresh
         public RefreshTokenCommandValidator()
         {
             RuleFor(command => command.RefreshToken)
-                .NotEmpty().WithMessage("Refresh token is required.");
+                .NotEmpty();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ArtService.Application.Common.Mappings;
 using ArtService.Application.Reviews.Commands.UpdateReview;
 using ArtService.Domain.Common;
+using AutoMapper;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.ReviewModels
@@ -12,5 +13,10 @@ namespace ArtService.WebApi.Models.ReviewModels
 
         [SwaggerSchema("Review's text")]
         public required string Text { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<UpdateReviewDto, UpdateReviewCommand>();
+        }
     }
 }

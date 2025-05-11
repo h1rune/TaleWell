@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AuthService.Application.Common.Exceptions;
 
 namespace AuthService.Infrastructure
 {
@@ -61,9 +62,10 @@ namespace AuthService.Infrastructure
         public async Task<TokensDto> RefreshTokenAsync(string refreshTokenValue, CancellationToken cancellationToken)
         {
             var token = await _dbContext.RefreshTokens
-                .FirstOrDefaultAsync(refresh => refresh.Token == refreshTokenValue, cancellationToken);
+                .FirstOrDefaultAsync(refresh => refresh.Token == refreshTokenValue, cancellationToken)
+                ?? throw new NotFoundException(nameof(RefreshToken), refreshTokenValue);
 
-            if (token == null || token.ExpiresAt < DateTime.UtcNow || token.IsRevoked)
+            if (token.ExpiresAt < DateTime.UtcNow || token.IsRevoked)
                 throw new UnauthorizedAccessException("Invalid or expired refresh token.");
 
             token.IsRevoked = true;
@@ -71,7 +73,7 @@ namespace AuthService.Infrastructure
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             var account = await _userManager.FindByIdAsync(token.AccountId)
-                ?? throw new UnauthorizedAccessException("User not found.");
+                ?? throw new NotFoundException(nameof(Account), token.AccountId);
 
             return await GenerateTokensAsync(account, cancellationToken);
         }

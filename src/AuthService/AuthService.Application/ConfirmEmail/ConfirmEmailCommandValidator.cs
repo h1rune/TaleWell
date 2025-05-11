@@ -7,10 +7,10 @@ namespace AuthService.Application.ConfirmEmail
         public ConfirmEmailCommandValidator()
         {
             RuleFor(command => command.AccountId)
-                .NotEmpty().WithMessage("Account ID is required.");
+                .NotEmpty();
 
             RuleFor(command => command.Token)
-                .NotEmpty().WithMessage("Token is required.");
+                .NotEmpty();
         }
     }
 }

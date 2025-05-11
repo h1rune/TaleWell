@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ArtService.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     IsFanfic = table.Column<bool>(type: "boolean", nullable: false),
@@ -39,7 +39,7 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     WorkId = table.Column<Guid>(type: "uuid", nullable: false),
                     Mark = table.Column<int>(type: "integer", nullable: false),
                     Text = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
@@ -61,6 +61,7 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     Order = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
                     CoverKey = table.Column<string>(type: "text", nullable: true),
@@ -82,6 +83,7 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     VolumeId = table.Column<Guid>(type: "uuid", nullable: false),
                     Order = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
@@ -103,6 +105,7 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     ChapterId = table.Column<Guid>(type: "uuid", nullable: false),
                     Order = table.Column<int>(type: "integer", nullable: false),
                     S3Key = table.Column<string>(type: "text", nullable: false)
@@ -123,16 +126,22 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     ParagraphId = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
                     IsSpoiler = table.Column<bool>(type: "boolean", nullable: false),
-                    SpoilerChapterNumber = table.Column<int>(type: "integer", nullable: true),
+                    SpoilerChapterId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Chapters_SpoilerChapterId",
+                        column: x => x.SpoilerChapterId,
+                        principalTable: "Chapters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Comments_Paragraphs_ParagraphId",
                         column: x => x.ParagraphId,
@@ -146,7 +155,7 @@ namespace ArtService.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
                     ParagraphId = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
                     PutAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -173,6 +182,11 @@ namespace ArtService.Persistence.Migrations
                 column: "ParagraphId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_SpoilerChapterId",
+                table: "Comments",
+                column: "SpoilerChapterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Paragraphs_ChapterId_Order",
                 table: "Paragraphs",
                 columns: new[] { "ChapterId", "Order" });
@@ -193,14 +207,14 @@ namespace ArtService.Persistence.Migrations
                 columns: new[] { "WorkId", "Order" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Works_AuthorId",
-                table: "Works",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Works_OriginalWorkId",
                 table: "Works",
                 column: "OriginalWorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Works_OwnerId",
+                table: "Works",
+                column: "OwnerId");
         }
 
         /// <inheritdoc />

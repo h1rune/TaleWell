@@ -1,5 +1,6 @@
 ﻿using ArtService.Application.Chapters.Commands.CreateChapter;
 using ArtService.Application.Common.Mappings;
+using AutoMapper;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.ChapterModels
@@ -14,5 +15,10 @@ namespace ArtService.WebApi.Models.ChapterModels
 
         [SwaggerSchema("Title of new chapter")]
         public string? Title { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CreateChapterDto, CreateChapterCommand>();
+        }
     }
 }

@@ -1,22 +1,34 @@
-﻿using FluentValidation;
+﻿using AuthService.Domain;
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace AuthService.Application.RegisterAccount 
 {
     public class RegisterAccountCommandValidator : AbstractValidator<RegisterAccountCommand>
     {
-        public RegisterAccountCommandValidator()
+        private readonly UserManager<Account> _userManager;
+
+        public RegisterAccountCommandValidator(UserManager<Account> userManager)
         {
+            _userManager = userManager;
             RuleFor(command => command.Email)
-                .NotEmpty().WithMessage("Email is required.")
-                .EmailAddress().WithMessage("Incorrect email format.");
+                .NotEmpty()
+                .EmailAddress()
+                .MustAsync(UniqueEmail);
 
             RuleFor(command => command.Password)
-                .NotEmpty().WithMessage("Password is required.")
-                .MinimumLength(6).WithMessage("Password must be longer than 6 characters.")
+                .NotEmpty()
+                .MinimumLength(6)
                 .Matches("[A-Z]").WithMessage("Password must contain letter in UPPERCASE.")
                 .Matches("[a-z]").WithMessage("Password must contain letter in lowercase.")
                 .Matches("[0-9]").WithMessage("Password must contain digit.")
                 .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain special symbol.");
+        }
+
+        private async Task<bool> UniqueEmail(string email, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user == null;
         }
     }
 }

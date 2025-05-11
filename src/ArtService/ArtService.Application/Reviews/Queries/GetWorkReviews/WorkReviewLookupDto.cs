@@ -10,17 +10,12 @@ namespace ArtService.Application.Reviews.Queries.GetWorkReviews
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public ReactionType Mark { get; set; }
-        public string Text { get; set; } = null!;
+        public required string Text { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Review, WorkReviewLookupDto>()
-                .ForMember(reviewDto => reviewDto.Id, options => options.MapFrom(review => review.Id))
-                .ForMember(reviewDto => reviewDto.UserId, options => options.MapFrom(review => review.OwnerId))
-                .ForMember(reviewDto => reviewDto.Mark, options => options.MapFrom(review => review.Mark))
-                .ForMember(reviewDto => reviewDto.Text, options => options.MapFrom(review => review.Text))
-                .ForMember(reviewDto => reviewDto.CreatedAt, options => options.MapFrom(review => review.CreatedAt));
+            profile.CreateMap<Review, WorkReviewLookupDto>();
         }
     }
 }

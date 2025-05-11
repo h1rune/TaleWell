@@ -46,11 +46,13 @@ services:
       - Email__Port=465
       - Email__User=${EMAIL_USER}
       - Email__Password=${EMAIL_PASSWORD}
-      - Email__ConfirmLink=https://api.${TRAEFIK_DOMAIN}/auth/account/confirm-email 
+      - ConfirmLinks__Email=https://api.${TRAEFIK_DOMAIN}/auth/accounts/confirm-email 
+      - ConfirmLinks__ResetPassword=https://api.${TRAEFIK_DOMAIN}/auth/accounts/reset-password 
       - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=https://api.${TRAEFIK_DOMAIN}/auth
       - Jwt__Audience=tw-services
       - Domain=${TRAEFIK_DOMAIN}
+      - LogoUrl=https://${TRAEFIK_DOMAIN}/logo.png
     depends_on:
       - auth-db
       - traefik 
@@ -63,6 +65,8 @@ services:
       POSTGRES_DB: auth
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # ports:
+    #   - "5432:5433"
     volumes:
       - auth-db-data:/var/lib/postgresql/data
     networks:
@@ -101,6 +105,8 @@ services:
       POSTGRES_DB: channel
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # ports:
+    #  - "5432:5433"
     volumes:
       - channel-db-data:/var/lib/postgresql/data
     networks:
@@ -139,6 +145,8 @@ services:
       POSTGRES_DB: art
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # ports:
+    #  - "5432:5433"
     volumes:
       - art-db-data:/var/lib/postgresql/data
     networks:

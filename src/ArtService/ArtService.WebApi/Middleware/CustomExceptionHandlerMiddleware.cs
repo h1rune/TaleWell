@@ -16,7 +16,7 @@ namespace ArtService.WebApi.Middleware
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        public async Task Invoke(HttpContext context, CancellationToken cancellationToken)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
@@ -24,6 +24,7 @@ namespace ArtService.WebApi.Middleware
             }
             catch (Exception exception)
             {
+                var cancellationToken = context.RequestAborted;
                 await HandleExceptionAsync(context, exception, cancellationToken);
             }
         }

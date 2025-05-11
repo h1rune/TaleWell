@@ -1,5 +1,6 @@
 ﻿using ArtService.Application.Common.Mappings;
 using ArtService.Application.Volumes.Commands.CreateVolume;
+using AutoMapper;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ArtService.WebApi.Models.VolumeModels
@@ -17,5 +18,10 @@ namespace ArtService.WebApi.Models.VolumeModels
 
         [SwaggerSchema("New cover of volume")]
         public IFormFile? CoverFile { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CreateVolumeDto, CreateVolumeCommand>();
+        }
     }
 }

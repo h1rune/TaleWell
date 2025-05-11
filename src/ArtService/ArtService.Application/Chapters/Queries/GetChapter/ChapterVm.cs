@@ -13,11 +13,7 @@ namespace ArtService.Application.Chapters.Queries.GetChapter
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Chapter, ChapterVm>()
-                .ForMember(chapterDto => chapterDto.VolumeId, options => options.MapFrom(chapter => chapter.VolumeId))
-                .ForMember(chapterDto => chapterDto.Order, options => options.MapFrom(chapter => chapter.Order))
-                .ForMember(chapterDto => chapterDto.Title, options => options.MapFrom(chapter => chapter.Title))
-                .ForMember(chapterDto => chapterDto.CreatedAt, options => options.MapFrom(chapter => chapter.CreatedAt));
+            profile.CreateMap<Chapter, ChapterVm>();
         }
     }
 }

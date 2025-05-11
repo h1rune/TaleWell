@@ -7,11 +7,11 @@ namespace AuthService.Application.Login
         public LoginCommandValidator()
         {
             RuleFor(command => command.Email)
-                .NotEmpty().WithMessage("Email is required.")
-                .EmailAddress().WithMessage("Incorrect email format.");
+                .NotEmpty()
+                .EmailAddress();
 
             RuleFor(command => command.Password)
-                .NotEmpty().WithMessage("Password is required.");
+                .NotEmpty();
         }
     }
 }

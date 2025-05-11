@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArtService.Persistence.Migrations
 {
     [DbContext(typeof(ArtServiceDbContext))]
-    [Migration("20250419135740_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250510161506_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace ArtService.Persistence.Migrations
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
@@ -62,23 +65,25 @@ namespace ArtService.Persistence.Migrations
                     b.Property<bool>("IsSpoiler")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ParagraphId")
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("SpoilerChapterNumber")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("SpoilerChapterId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ParagraphId");
+
+                    b.HasIndex("SpoilerChapterId");
 
                     b.ToTable("Comments");
                 });
@@ -94,6 +99,9 @@ namespace ArtService.Persistence.Migrations
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("S3Key")
                         .IsRequired()
@@ -112,6 +120,9 @@ namespace ArtService.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ParagraphId")
                         .HasColumnType("uuid");
 
@@ -120,9 +131,6 @@ namespace ArtService.Persistence.Migrations
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -143,13 +151,13 @@ namespace ArtService.Persistence.Migrations
                     b.Property<int>("Mark")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("WorkId")
                         .HasColumnType("uuid");
@@ -173,6 +181,9 @@ namespace ArtService.Persistence.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
@@ -192,9 +203,6 @@ namespace ArtService.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -211,15 +219,18 @@ namespace ArtService.Persistence.Migrations
                     b.Property<Guid?>("OriginalWorkId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.HasIndex("OriginalWorkId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Works");
                 });
@@ -243,7 +254,14 @@ namespace ArtService.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ArtService.Domain.Chapter", "SpoilerChapter")
+                        .WithMany()
+                        .HasForeignKey("SpoilerChapterId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("RelatedParagraph");
+
+                    b.Navigation("SpoilerChapter");
                 });
 
             modelBuilder.Entity("ArtService.Domain.Paragraph", b =>
