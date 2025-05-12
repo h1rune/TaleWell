@@ -11,5 +11,6 @@ namespace ArtService.Application.Works.Commands.UpdateWork
 
         public bool IsFanfic { get; set; }
         public Guid? OriginalWorkId { get; set; }
+        public ICollection<Guid> TagIds { get; set; } = [];
     }
 }

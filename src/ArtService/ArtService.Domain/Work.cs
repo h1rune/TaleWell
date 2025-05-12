@@ -12,6 +12,10 @@ namespace ArtService.Domain
         public bool IsFanfic { get; set; }          
         public Guid? OriginalWorkId { get; set; } 
         public Work? OriginalWork { get; set; }
+        public FormType FormType { get; set; }
+
+        public required string LiteraryArchetypeId { get; set; }
+        public LiteraryArchetype? LiteraryArchetype { get; set; }
         
         public DateTime CreatedAt { get; set; }
         public DateTime? EditedAt { get; set; }
@@ -19,5 +23,6 @@ namespace ArtService.Domain
         public ICollection<Review> Reviews { get; set; } = [];
         public ICollection<Volume> Volumes { get; set; } = [];
         public ICollection<Work> Fanfics { get; set; } = [];
+        public ICollection<LiteraryTag> Tags { get; set; } = [];
     }
 }

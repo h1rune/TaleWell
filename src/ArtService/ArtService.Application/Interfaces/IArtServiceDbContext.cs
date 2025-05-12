@@ -12,6 +12,8 @@ namespace ArtService.Application.Interfaces
         DbSet<Paragraph> Paragraphs { get; set; }
         DbSet<Comment> Comments { get; set; }
         DbSet<Reaction> Reactions { get; set; }
+        DbSet<LiteraryTag> LiteraryTags { get; set; }
+        DbSet<LiteraryArchetype> LiteraryArchetypes { get; set; }
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 

@@ -16,6 +16,8 @@ namespace ArtService.Application.Works.Queries.GetWork
         public async Task<WorkVm> Handle(GetWorkQuery request, CancellationToken cancellationToken)
         {
             var workEntity = await _dbContext.Works
+                .Include(work => work.Tags)
+                .Include(work => work.LiteraryArchetype)
                 .FirstOrDefaultAsync(work => work.Id == request.WorkId, cancellationToken)
                 ?? throw new NotFoundException(nameof(Work), request.WorkId);
 

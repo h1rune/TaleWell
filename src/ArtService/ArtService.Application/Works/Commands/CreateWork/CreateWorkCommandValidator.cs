@@ -26,6 +26,9 @@ namespace ArtService.Application.Works.Commands.CreateWork
 
             RuleFor(command => command.Description)
                 .MaximumLength(1000);
+
+            RuleFor(command => command.TagIds)
+                .NotEmpty();
         }
     }
 }

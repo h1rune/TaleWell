@@ -13,6 +13,8 @@ namespace ArtService.Application.Works.Queries.GetWorks
         public bool IsFanfic { get; set; }
         public Guid? OriginalWorkId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public ICollection<LiteraryTag> Tags { get; set; } = [];
+        public required LiteraryArchetype LiteraryArchetype { get; set; }
 
         public void Mapping(Profile profile)
         {
