@@ -7,6 +7,9 @@ namespace ArtService.WebApi.Models.CommentModels
 {
     public class CreateCommentDto : IMapWith<CreateCommentCommand>
     {
+        [SwaggerSchema("@Handle of entity's owner.")]
+        public required string OwnerHandle { get; set; }
+
         [SwaggerSchema("ID of paragraph for commenting")]
         public Guid ParagraphId { get; set; }
 

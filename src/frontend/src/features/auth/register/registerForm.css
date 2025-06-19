@@ -1,0 +1,53 @@
+.registration {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.registration h1 {
+  color: var(--dark);
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  width: 100%;
+}
+
+.registration form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+.registration button {
+  background: var(--dark);
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.625rem;
+  cursor: pointer;
+  width: 100%;
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.login-link {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 400;
+  width: 100%;
+}
+
+.login-link span {
+  color: var(--dark);
+}
+
+.login-link a {
+  color: var(--accent);
+}

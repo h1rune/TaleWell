@@ -3,6 +3,7 @@ using ChannelService.Application.Channels.Commands.CreateChannel;
 using ChannelService.Application.Channels.Commands.DeleteChannel;
 using ChannelService.Application.Channels.Commands.UpdateChannel;
 using ChannelService.Application.Channels.Queries.GetChannelByHandle;
+using ChannelService.Application.Channels.Queries.GetOwnChannel;
 using ChannelService.WebApi.Models.ChannelModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -41,6 +42,18 @@ namespace ChannelService.WebApi.Controllers
             var deleteCommand = new DeleteChannelCommand { ChannelId = AccountId };
             await Mediator.Send(deleteCommand);
             return NoContent();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<OwnChannelVm>> GetOwnChannel()
+        {
+            var query = new GetOwnChannelQuery
+            {
+                ActorId = AccountId
+            };
+            var channelVm = await Mediator.Send(query);
+            return Ok(channelVm);
         }
 
         [HttpGet("{channelHandle}")]

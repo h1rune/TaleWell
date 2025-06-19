@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace ChannelService.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     public abstract class BaseController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;

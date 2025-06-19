@@ -8,7 +8,7 @@ namespace ArtService.Application.Reviews.Queries.GetWorkReviews
     public class WorkReviewLookupDto : IMapWith<Review>
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public required string OwnerHandle { get; set; }
         public ReactionType Mark { get; set; }
         public required string Text { get; set; }
         public DateTime CreatedAt { get; set; }

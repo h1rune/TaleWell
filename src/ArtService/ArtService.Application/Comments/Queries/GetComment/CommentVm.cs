@@ -6,7 +6,7 @@ namespace ArtService.Application.Comments.Queries.GetParagraph
 {
     public class CommentVm : IMapWith<Comment>
     {
-        public Guid UserId { get; set; }
+        public required string OwnerHandle { get; set; }
         public Guid ParagraphId { get; set; }
         public required string Text { get; set; }
         public bool IsSpoiler { get; set; }

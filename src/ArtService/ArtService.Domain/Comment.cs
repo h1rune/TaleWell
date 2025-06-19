@@ -6,6 +6,7 @@ namespace ArtService.Domain
     {
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }
+        public required string OwnerHandle { get; set; }
         public Guid ParagraphId { get; set; }
         public Paragraph RelatedParagraph { get; set; } = null!;
 

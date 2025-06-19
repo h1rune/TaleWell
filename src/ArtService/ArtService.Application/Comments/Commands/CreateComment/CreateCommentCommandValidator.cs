@@ -12,6 +12,9 @@ namespace ArtService.Application.Comments.Commands.CreateComment
             RuleFor(command => command.UserId)
                 .NotEmpty();
 
+            RuleFor(command => command.OwnerHandle)
+                .NotEmpty();
+
             RuleFor(command => command.ParagraphId)
                 .MustExistInDb<CreateCommentCommand, Paragraph>(dbContext);
 

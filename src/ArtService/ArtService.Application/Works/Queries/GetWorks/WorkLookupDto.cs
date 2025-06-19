@@ -7,7 +7,7 @@ namespace ArtService.Application.Works.Queries.GetWorks
     public class WorkLookupDto : IMapWith<Work>
     {
         public Guid Id { get; set; }
-        public Guid OwnerId { get; set; }
+        public required string OwnerHandle { get; set; }
         public required string Title { get; set; }
         public string? Description { get; set; }
         public bool IsFanfic { get; set; }

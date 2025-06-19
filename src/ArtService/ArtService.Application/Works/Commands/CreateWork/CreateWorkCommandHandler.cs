@@ -21,6 +21,7 @@ namespace ArtService.Application.Works.Commands.CreateWork
             {
                 Id = Guid.NewGuid(),
                 OwnerId = request.UserId,
+                OwnerHandle = request.OwnerHandle,
                 Title = request.Title,
                 Description = request.Description,
                 IsFanfic = request.IsFanfic,

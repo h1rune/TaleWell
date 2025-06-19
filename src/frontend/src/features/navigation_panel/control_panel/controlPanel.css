@@ -1,0 +1,76 @@
+.control-panel {
+  border-style: solid;
+  border-color: var(--supporting, #777777);
+  border-width: 0.0625rem 0rem 0rem 0rem;
+  padding: 0.9375rem 1.25rem 0.9375rem 0.875rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.own-channel-link {
+  display: flex;
+  flex-direction: row;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.own-channel-icon {
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 4rem;
+  height: 4rem;
+  position: relative;
+  object-fit: cover;
+}
+.own-channel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+.own-channel-title {
+  color: var(--dark, #1e1e1e);
+  text-align: left;
+  font-family: var(--header-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--header-font-size, 1.125rem);
+  font-weight: var(--header-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.own-channel-id {
+  color: var(--supporting, #777777);
+  text-align: left;
+  font-family: var(--supporting-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--supporting-font-size, 0.875rem);
+  font-weight: var(--supporting-font-weight, 400);
+  position: relative;
+  align-self: stretch;
+}
+.add-button {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  position: relative;
+  overflow: visible;
+}
+.settings-button {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  position: relative;
+  overflow: visible;
+}

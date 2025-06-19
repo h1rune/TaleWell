@@ -1,0 +1,71 @@
+.channel-nav-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.nav-channel-icon {
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 4rem;
+  height: 4rem;
+  object-fit: cover;
+}
+.nav-channel-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+}
+.nav-channel-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+.nav-channel-title {
+  color: var(--dark, #1e1e1e);
+  text-align: left;
+  font-size: var(--base-font-size, 1rem);
+  font-weight: var(--base-font-weight, 400);
+  position: relative;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.nav-channel-last-time {
+  color: var(--supporting, #777777);
+  text-align: right;
+  font-size: var(--supporting-font-size, 0.875rem);
+  font-weight: var(--supporting-font-weight, 400);
+  position: relative;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.nav-channel-last-post {
+  display: flex;
+  flex-direction: row;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.last-post-text {
+  color: var(--supporting, #777777);
+  text-align: left;
+  font-family: var(--supporting-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--supporting-font-size, 0.875rem);
+  font-weight: var(--supporting-font-weight, 400);
+  position: relative;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -1,0 +1,85 @@
+.navigation-panel {
+  background: var(--white, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 100%;
+  box-shadow: var(
+    --main-box-shadow,
+    0rem 0rem 0.625rem 0.25rem rgba(0, 0, 0, 0.05)
+  );
+  overflow: hidden;
+}
+.header {
+  border-style: solid;
+  border-color: var(--supporting, #777777);
+  border-width: 0rem 0rem 0.0625rem 0rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.3125rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.header-logo {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3125rem;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.header-logo {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+.header-logo-text {
+  color: var(--dark, #1e1e1e);
+  text-align: left;
+  font-family: var(--header-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--header-font-size, 1.125rem);
+  font-weight: var(--header-font-weight, 400);
+  position: relative;
+  width: 11.5625rem;
+}
+.search-button {
+  background: var(--white, #ffffff);
+  border-radius: 0.625rem;
+  padding: 0.625rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.search-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+  overflow: visible;
+}
+.bookmark-button {
+  border-radius: 0.625rem;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+
+

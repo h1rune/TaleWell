@@ -8,6 +8,9 @@ namespace ArtService.WebApi.Models.ReviewModels
 {
     public class CreateReviewDto : IMapWith<CreateReviewCommand>
     {
+        [SwaggerSchema("@Handle of entity's owner.")]
+        public required string OwnerHandle { get; set; }
+
         [SwaggerSchema("ID of literary work for review")]
         public Guid WorkId { get; set; }
 

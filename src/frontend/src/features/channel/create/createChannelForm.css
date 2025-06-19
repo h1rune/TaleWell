@@ -1,0 +1,38 @@
+.create-channel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.create-channel h1 {
+  color: var(--dark);
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  width: 100%;
+}
+
+.create-channel form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+.create-channel button {
+  background: var(--dark);
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.625rem;
+  cursor: pointer;
+  width: 100%;
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 400;
+}

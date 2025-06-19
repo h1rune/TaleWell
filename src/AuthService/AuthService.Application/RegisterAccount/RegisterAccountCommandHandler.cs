@@ -15,10 +15,19 @@ namespace AuthService.Application.RegisterAccount
 
         public async Task<Unit> Handle(RegisterAccountCommand command, CancellationToken cancellationToken)
         {
-            var account = _mapper.Map<Account>(command);
-            await _userManager.CreateAsync(account, command.Password);
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(account);
-            await _emailService.SendEmailConfirmationAsync(account.Email!, account.Id, token, cancellationToken);
+            var accountEntity = await _userManager.FindByEmailAsync(command.Email);
+            if (accountEntity != null && accountEntity.EmailConfirmed)
+            {
+                throw new UnauthorizedAccessException();
+            }
+            if (accountEntity == null)
+            {
+                accountEntity = _mapper.Map<Account>(command);
+                await _userManager.CreateAsync(accountEntity, command.Password);
+            }
+            
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(accountEntity);
+            await _emailService.SendEmailConfirmationAsync(accountEntity.Email!, accountEntity.Id, token, cancellationToken);
             return Unit.Value;
         }
     }

@@ -7,7 +7,7 @@ namespace ArtService.Application.Reviews.Queries.GetReview
 {
     public class ReviewVm : IMapWith<Review>
     {
-        public Guid UserId { get; set; }
+        public required string OwnerHandle { get; set; }
         public Guid WorkId { get; set; }
         public ReactionType Mark { get; set; }
         public required string Text { get; set; }

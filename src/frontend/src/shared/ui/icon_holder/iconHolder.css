@@ -1,0 +1,20 @@
+.icon-holder {
+  background: var(--transparent-main);
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--main, #1e1e1e);
+  border-width: 0.0625rem;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+}
+.icon-holder a {
+  color: var(--dark, #1e1e1e);
+  text-align: center;
+  font-size: var(--header-font-size, 1.125rem);
+  font-weight: var(--header-font-weight, 400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

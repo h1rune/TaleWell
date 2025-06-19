@@ -10,6 +10,7 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         {
             builder.HasKey(comment => comment.Id);
             builder.HasIndex(comment => comment.ParagraphId);
+            builder.HasIndex(comment => comment.OwnerHandle);
 
             builder.Property(comment => comment.Text).HasMaxLength(300);
 

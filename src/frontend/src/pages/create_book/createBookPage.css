@@ -1,0 +1,62 @@
+.main-panel,
+.main-panel * {
+  box-sizing: border-box;
+}
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  width: 50%;
+}
+.settings-area {
+  padding: 1.25rem 1.25rem 0rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.settings {
+  background: var(--white, #ffffff);
+  border-radius: 0.625rem 0.625rem 0rem 0rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+  box-shadow: 0rem 0rem 0.625rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+.publish-button {
+  background: var(--dark, #1e1e1e);
+  border-radius: 0.625rem;
+  padding: 0.625rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  color: var(--white, #ffffff);
+  text-align: left;
+  font-family: var(--header-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--header-font-size, 1.125rem);
+  font-weight: var(--header-font-weight, 400);
+}

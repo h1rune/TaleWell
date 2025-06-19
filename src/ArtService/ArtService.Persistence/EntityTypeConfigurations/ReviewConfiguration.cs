@@ -10,6 +10,7 @@ namespace ArtService.Persistence.EntityTypeConfigurations
         {
             builder.HasKey(review => review.Id);
             builder.HasIndex(review => review.WorkId);
+            builder.HasIndex(review => review.OwnerHandle);
 
             builder.Property(review => review.Text).HasMaxLength(2000);
 

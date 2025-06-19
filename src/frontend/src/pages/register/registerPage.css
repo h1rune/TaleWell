@@ -1,0 +1,26 @@
+.logo {
+  width: 20rem;
+  height: 20rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.agreement-links {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 400;
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 100%;
+  padding: 0 1rem;
+}
+
+.agreement-links span {
+  color: var(--dark);
+}
+
+.agreement-links a {
+  color: var(--accent);
+}

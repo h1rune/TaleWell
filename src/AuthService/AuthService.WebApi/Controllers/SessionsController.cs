@@ -11,15 +11,10 @@ using System.Net;
 
 namespace AuthService.WebApi.Controllers
 {
-    public class SessionsController(IMediator mediator, IMapper mapper) : BaseController(mediator)
+    public class SessionsController(IConfiguration configuration, IMediator mediator, IMapper mapper) : BaseController(mediator)
     {
         private readonly IMapper _mapper = mapper;
-        private readonly CookieOptions _cookieOptions = new()
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None
-        };
+        private readonly IConfiguration _configuration = configuration;
 
         [HttpPost("login")]
         [SwaggerResponse(StatusCodes.Status200OK, "Login successed", typeof(Cookie))]
@@ -66,10 +61,27 @@ namespace AuthService.WebApi.Controllers
 
         private void SetCookies(TokensDto tokensDto)
         {
-            _cookieOptions.Expires = tokensDto.AccessExpiresAt;
-            Response.Cookies.Append("access_token", tokensDto.AccessToken, _cookieOptions);
-            _cookieOptions.Expires = tokensDto.RefreshExpiresAt;
-            Response.Cookies.Append("refresh_token", tokensDto.RefreshToken, _cookieOptions);
+            var domain = _configuration["Domain"]!;
+
+            Response.Cookies.Append("access_token", tokensDto.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                IsEssential = true,
+                Expires = tokensDto.AccessExpiresAt,
+                Domain = domain.Contains("localhost") ? null : $".{domain}"
+            });
+
+            Response.Cookies.Append("refresh_token", tokensDto.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                IsEssential = true,
+                Expires = tokensDto.RefreshExpiresAt,
+                Domain = domain.Contains("localhost") ? null : $".{domain}"
+            });
         }
     }
 }

@@ -7,7 +7,7 @@ namespace AuthService.Persistence
     {
         public AuthServiceDbContext CreateDbContext(string[] args)
         {
-            var connection = "Host=localhost;Port=5433;Database=auth;Username=user;Password=password";
+            var connection = "Host=localhost;Port=5432;Database=auth;Username=user;Password=password";
 
             var optionsBuilder = new DbContextOptionsBuilder<AuthServiceDbContext>();
             optionsBuilder.UseNpgsql(connection);

@@ -7,7 +7,7 @@ namespace ArtService.Application.Works.Queries.GetFanfics
     public class FanficLookupDto : IMapWith<Work>
     {
         public Guid Id { get; set; }
-        public Guid OwnerId { get; set; }
+        public required string OwnerHandle { get; set; }
         public required string Title { get; set; }
 
         public void Mapping(Profile profile)

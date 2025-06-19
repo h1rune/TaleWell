@@ -1,0 +1,55 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  width: 100%;
+  max-width: 20rem;
+}
+.login h1{
+  color: var(--dark);
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  width: 100%;
+}
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+}
+.password-forget-link {
+  color: var(--dark, #1e1e1e);
+  text-align: right;
+  font-size: var(--supporting-font-size, 0.875rem);
+  font-weight: var(--supporting-font-weight, 400);
+  align-self: stretch;
+  height: 1.1875rem;
+}
+.login button {
+  background: var(--dark);
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.625rem;
+  cursor: pointer;
+  width: 100%;
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 400;
+}
+.registration-link {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 400;
+  width: 100%;
+}
+.registration-link span {
+  color: var(--dark, #1e1e1e);
+}
+.registration-link a {
+  color: var(--accent, #ff1654);
+}

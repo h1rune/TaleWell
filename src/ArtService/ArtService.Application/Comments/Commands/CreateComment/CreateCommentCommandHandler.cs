@@ -15,6 +15,7 @@ namespace ArtService.Application.Comments.Commands.CreateComment
             {
                 Id = Guid.NewGuid(),
                 OwnerId = request.UserId,
+                OwnerHandle = request.OwnerHandle,
                 ParagraphId = request.ParagraphId,
                 Text = request.Text,
                 IsSpoiler = request.IsSpoiler,

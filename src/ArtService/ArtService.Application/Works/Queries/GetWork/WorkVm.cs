@@ -6,7 +6,7 @@ namespace ArtService.Application.Works.Queries.GetWork
 {
     public class WorkVm : IMapWith<Work>
     {
-        public Guid OwnerId { get; set; }
+        public required string OwnerHandle { get; set; }
         public required string Title { get; set; }
         public string? Description { get; set; }
         public bool IsFanfic { get; set; }

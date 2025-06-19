@@ -11,7 +11,8 @@ namespace ArtService.Application.Works.Commands.CreateWork
         {
             RuleFor(command => command.UserId)
                 .NotEmpty();
-
+            RuleFor(command => command.OwnerHandle)
+                .NotEmpty();
             RuleFor(command => command.OriginalWorkId)
                 .NotEmpty()
                 .DependentRules(() =>

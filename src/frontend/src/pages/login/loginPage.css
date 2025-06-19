@@ -1,0 +1,8 @@
+.logo {
+  flex-shrink: 0;
+  width: 20rem;
+  height: 20rem;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}

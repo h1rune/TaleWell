@@ -28,7 +28,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Allow", policy =>
     {
-        policy.WithOrigins(domain, $"api.{domain}");
+        policy.WithOrigins(
+            $"https://{domain}",
+            $"https://api.{domain}"
+        );
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
         policy.AllowCredentials();
@@ -87,12 +90,12 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseSwagger();            
-app.UseSwaggerUI();
 app.UseCustomExceptionHandler();
+app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("Allow");
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 app.Run();

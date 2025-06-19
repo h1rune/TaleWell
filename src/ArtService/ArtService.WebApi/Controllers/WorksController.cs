@@ -6,6 +6,7 @@ using ArtService.Application.Works.Commands.UpdateWork;
 using ArtService.Application.Works.Queries.GetFanfics;
 using ArtService.Application.Works.Queries.GetWork;
 using ArtService.Application.Works.Queries.GetWorks;
+using ArtService.Application.Works.Queries.GetWorksByOwner;
 using ArtService.WebApi.Models.Common;
 using ArtService.WebApi.Models.WorkModels;
 using AutoMapper;
@@ -113,6 +114,20 @@ namespace ArtService.WebApi.Controllers
         {
             var query = _mapper.Map<GetFanficsQuery>(getDto);
             query.OriginalId = originalId;
+            var fanficsVm = await Mediator.Send(query, cancellationToken);
+            return Ok(fanficsVm);
+        }
+
+        [HttpGet("by-owner/{ownerHandle}")]
+        [AllowAnonymous]
+        [SwaggerResponse(StatusCodes.Status200OK, "Works were received.", typeof(WorksVm))]
+        [EndpointDescription("This operation returns list with information about all works from author.")]
+        public async Task<ActionResult<FanficsVm>> GetFanfics(
+            [SwaggerParameter("Author's @handle.")]
+            string ownerHandle,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetWorksByOwnerQuery { OwnerHandle = ownerHandle };
             var fanficsVm = await Mediator.Send(query, cancellationToken);
             return Ok(fanficsVm);
         }

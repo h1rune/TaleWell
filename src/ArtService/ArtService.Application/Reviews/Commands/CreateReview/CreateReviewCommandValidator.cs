@@ -11,6 +11,8 @@ namespace ArtService.Application.Reviews.Commands.CreateReview
         {
             RuleFor(command => command.UserId)
                 .NotEmpty();
+            RuleFor(command => command.OwnerHandle)
+                .NotEmpty();
             RuleFor(command => command.WorkId)
                 .MustExistInDb<CreateReviewCommand, Work>(dbContext);
             RuleFor(command => command.Mark)

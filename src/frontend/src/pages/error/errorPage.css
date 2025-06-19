@@ -1,0 +1,45 @@
+.logo {
+  flex-shrink: 0;
+  width: 20rem;
+  height: 20rem;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 1;
+}
+.error-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+.error-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.error-code {
+  color: var(--dark, #1e1e1e);
+  font-family: var(--font-family);
+  font-size: 8rem;
+  font-weight: var(--header-font-weight);
+}
+.error-text {
+  color: var(--dark, #1e1e1e);
+  font-family: var(--font-family);
+  font-size: 2rem;
+  font-weight: var(--base-font-weight);
+}
+.back-link {
+  color: var(--accent, #ff1654);
+  text-align: left;
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+  font-weight: var(--base-font-weight);
+  text-decoration: none;
+}

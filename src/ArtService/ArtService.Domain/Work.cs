@@ -6,6 +6,7 @@ namespace ArtService.Domain
     {
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }
+        public required string OwnerHandle { get; set; }
         public required string Title { get; set; }
         public string? Description { get; set; }
 

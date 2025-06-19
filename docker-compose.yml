@@ -32,11 +32,12 @@ services:
   auth-api:
     build: ./src/AuthService
     labels:
+      - "traefik.http.routers.auth.entrypoints=web"
       - "traefik.http.routers.auth.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/auth`)"
       - "traefik.http.middlewares.strip-auth-path.stripprefix.prefixes=/auth"
       - "traefik.http.routers.auth.middlewares=strip-auth-path@docker"
-      - "traefik.http.routers.auth.entrypoints=websecure"
-      - "traefik.http.routers.auth.tls.certresolver=myresolver"
+      # - "traefik.http.routers.auth.entrypoints=websecure"
+      # - "traefik.http.routers.auth.tls.certresolver=myresolver"
 
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -52,7 +53,6 @@ services:
       - Jwt__Issuer=https://api.${TRAEFIK_DOMAIN}/auth
       - Jwt__Audience=tw-services
       - Domain=${TRAEFIK_DOMAIN}
-      - LogoUrl=https://${TRAEFIK_DOMAIN}/logo.png
     depends_on:
       - auth-db
       - traefik 
@@ -75,11 +75,12 @@ services:
   channel-api:
     build: ./src/ChannelService
     labels:
+      - "traefik.http.routers.channel.entrypoints=web"
       - "traefik.http.routers.channel.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/channel`)"
       - "traefik.http.middlewares.strip-channel-path.stripprefix.prefixes=/channel"
       - "traefik.http.routers.channel.middlewares=strip-channel-path@docker"
-      - "traefik.http.routers.channel.entrypoints=websecure"
-      - "traefik.http.routers.channel.tls.certresolver=myresolver"
+      # - "traefik.http.routers.channel.entrypoints=websecure"
+      # - "traefik.http.routers.channel.tls.certresolver=myresolver"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=channel-db;Database=channel;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -115,11 +116,12 @@ services:
   art-api:
     build: ./src/ArtService
     labels:
+      - "traefik.http.routers.art.entrypoints=web"
       - "traefik.http.routers.art.rule=Host(`api.${TRAEFIK_DOMAIN}`) && PathPrefix(`/art`)"
       - "traefik.http.middlewares.strip-art-path.stripprefix.prefixes=/art"
       - "traefik.http.routers.art.middlewares=strip-art-path@docker"
-      - "traefik.http.routers.art.entrypoints=websecure"
-      - "traefik.http.routers.art.tls.certresolver=myresolver"
+      # - "traefik.http.routers.art.entrypoints=websecure"
+      # - "traefik.http.routers.art.tls.certresolver=myresolver"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB__Connection=Host=art-db;Database=art;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
@@ -174,6 +176,20 @@ services:
       - "traefik.http.routers.minio-console.entrypoints=websecure"
       - "traefik.http.routers.minio-console.tls=true"
       - "traefik.http.services.minio-console.loadbalancer.server.port=9001"
+
+
+  frontend:
+    build: ./src/Frontend
+    labels:
+      - "traefik.http.routers.frontend.rule=Host(`${TRAEFIK_DOMAIN}`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+    depends_on:
+      - auth-api
+      - channel-api
+      - art-api
+    networks:
+      - tale-net
 
 volumes:
   auth-db-data:

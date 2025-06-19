@@ -28,7 +28,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Allow", policy =>
     {
-        policy.WithOrigins(domain, $"api.{domain}");
+        policy.WithOrigins(
+            $"https://{domain}",
+            $"https://api.{domain}"
+        );
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
         policy.AllowCredentials();
